@@ -17,7 +17,7 @@ public class MijnTimerTask extends TimerTask {
         this.mc = mc;
     }
     public void run() {
-        mc.callback();
+//        mc.callback();
     }
 
 }
