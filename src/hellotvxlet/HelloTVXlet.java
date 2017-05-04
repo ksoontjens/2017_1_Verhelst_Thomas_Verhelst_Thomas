@@ -19,7 +19,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
     public void initXlet(XletContext context) {
       scene = HSceneFactory.getInstance().getDefaultHScene();
       MijnComponent mc = new MijnComponent();
-      //mc.setBounds(300, 100, 500, 200);//x1,y1,x2,y2
       scene.add(mc);
       scene.validate();
       scene.setVisible(true);

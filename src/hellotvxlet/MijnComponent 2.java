@@ -113,8 +113,6 @@ public class MijnComponent extends HComponent implements UserEventListener {
     
     public MijnComponent(){
         this.setBounds(0, 0, width, height);
-        
-        scene = HSceneFactory.getInstance().getDefaultHScene();
         // IMG zetten in C:\Program Files\TechnoTrend\TT-MHP-Browser\fileio\DSMCC\0.0.3
         
         kaart = this.getToolkit().getImage("kaart.gif");
@@ -463,16 +461,15 @@ public class MijnComponent extends HComponent implements UserEventListener {
         g.setColor(new DVBColor(195,55,0,255));
         g.fillRect(0, 0, width, height);
         
-//        HStaticText tekst = new HStaticText("Wat is 1 + 7?",0,0,750,100);
-//      tekst.setBackgroundMode(HVisible.BACKGROUND_FILL);
-//      tekst.setBackground(Color.GRAY);
-//      scene.add(tekst);
-//      
-//      HTextButton knop = new HTextButton("1",250,200,100,100);
-//      knop.setBackgroundMode(HVisible.BACKGROUND_FILL);
-//      knop.setBackground(Color.GRAY);
-//      scene.add(knop);
-        
+        HStaticText tekst = new HStaticText("Wat is 1 + 7?",0,0,750,100);
+      tekst.setBackgroundMode(HVisible.BACKGROUND_FILL);
+      tekst.setBackground(Color.GRAY);
+      scene.add(tekst);
+      
+      HTextButton knop = new HTextButton("1",250,200,100,100);
+      knop.setBackgroundMode(HVisible.BACKGROUND_FILL);
+      knop.setBackground(Color.GRAY);
+      scene.add(knop);
         g.drawImage(intro, 0, height - introSize, null);
         //BoardSetup(g,B1);
 //        if(laser){
