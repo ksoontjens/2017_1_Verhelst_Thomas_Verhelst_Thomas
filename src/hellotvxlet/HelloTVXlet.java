@@ -9,8 +9,6 @@ import org.havi.ui.event.HActionListener;
 
 
 public class HelloTVXlet implements Xlet, HActionListener {
-    private Component tekst;
-
   
     public HelloTVXlet() {
         
@@ -18,6 +16,7 @@ public class HelloTVXlet implements Xlet, HActionListener {
     public HScene scene;
     public void initXlet(XletContext context) {
       scene = HSceneFactory.getInstance().getDefaultHScene();
+      
       MijnComponent mc = new MijnComponent();
       scene.add(mc);
       scene.validate();

@@ -29,8 +29,6 @@ import org.havi.ui.HVisible;
  */
 public class MijnComponent extends HComponent implements UserEventListener {
     
-    HScene scene;
-    
     String[] B1 = {"B","A1H2","F1V3","A2V3","D2V3","A5V2","E5H2","C6H3"};
     String[] B2 = {"A","A1V2","D1H3","D2V2","F2V3","E3V2","A4H3","E5H2","C5V2","A6H2","D6H2"};
     String[] B3 = {"B","D3V3","B4H2","B5V2","C6H2","F4V3"};
@@ -86,12 +84,38 @@ public class MijnComponent extends HComponent implements UserEventListener {
     Image vV4;
     
     Image intro;
+    Image titel;
+    
+    //knoppen
+    Image knopNorSluiten;
+    Image knopNorSimpel;
+    Image knopNorStandaard;
+    Image knopNorSpannend;
+    Image knopNorSuper;
+    Image knopNorSpelen;
+
+    Image knopFocSluiten;
+    Image knopFocSimpel;
+    Image knopFocStandaard;
+    Image knopFocSpannend;
+    Image knopFocSuper;
+    Image knopFocSpelen;
+
+    Image knopCliSluiten;
+    Image knopCliSimpel;
+    Image knopCliStandaard;
+    Image knopCliSpannend;
+    Image knopCliSuper;
+    Image knopCliSpelen;
+    
+    int knopWidth = 130;
+    int knopHeight = 40;
     
     int width = 720;
     int height = 576;
     int krtWidth = 527;
     int krtHeight = 559;
-    int introSize = 200;
+    int introSize = 335;
     int randL = ((width - krtWidth) / 2) + 45;
     int randT = ((height - krtHeight) / 2) +66;
     int rasterSize = 72;
@@ -113,8 +137,6 @@ public class MijnComponent extends HComponent implements UserEventListener {
     
     public MijnComponent(){
         this.setBounds(0, 0, width, height);
-        
-        scene = HSceneFactory.getInstance().getDefaultHScene();
         // IMG zetten in C:\Program Files\TechnoTrend\TT-MHP-Browser\fileio\DSMCC\0.0.3
         
         kaart = this.getToolkit().getImage("kaart.gif");
@@ -162,6 +184,29 @@ public class MijnComponent extends HComponent implements UserEventListener {
         vV4 = this.getToolkit().getImage("vracht/V/4.gif");
         
         intro = this.getToolkit().getImage("intro.png");
+        titel = this.getToolkit().getImage("title.png");
+        
+        //knoppen
+        knopNorSluiten = this.getToolkit().getImage("knoppen/normaal/sluiten.png");
+        knopNorSimpel = this.getToolkit().getImage("knoppen/normaal/simpel.png");
+        knopNorStandaard = this.getToolkit().getImage("knoppen/normaal/standaard.png");
+        knopNorSpannend = this.getToolkit().getImage("knoppen/normaal/spannend.png");
+        knopNorSuper = this.getToolkit().getImage("knoppen/normaal/super.png");
+        knopNorSpelen = this.getToolkit().getImage("knoppen/normaal/spelen.png");
+        
+        knopFocSluiten = this.getToolkit().getImage("knoppen/focus/sluiten.png");
+        knopFocSimpel = this.getToolkit().getImage("knoppen/focus/simpel.png");
+        knopFocStandaard = this.getToolkit().getImage("knoppen/focus/standaard.png");
+        knopFocSpannend = this.getToolkit().getImage("knoppen/focus/spannend.png");
+        knopFocSuper = this.getToolkit().getImage("knoppen/focus/super.png");
+        knopFocSpelen = this.getToolkit().getImage("knoppen/focus/spelen.png");
+        
+        knopCliSluiten = this.getToolkit().getImage("knoppen/click/sluiten.png");
+        knopCliSimpel = this.getToolkit().getImage("knoppen/click/simpel.png");
+        knopCliStandaard = this.getToolkit().getImage("knoppen/click/standaard.png");
+        knopCliSpannend = this.getToolkit().getImage("knoppen/click/spannend.png");
+        knopCliSuper = this.getToolkit().getImage("knoppen/click/super.png");
+        knopCliSpelen = this.getToolkit().getImage("knoppen/click/spelen.png");
         
         MediaTracker mt = new MediaTracker(this);
         mt.addImage(kaart, 1);
@@ -209,6 +254,27 @@ public class MijnComponent extends HComponent implements UserEventListener {
         mt.addImage(vV4, 1);
         
         mt.addImage(intro, 1);
+        mt.addImage(titel, 1);
+        
+        // knoppen
+        mt.addImage(knopNorSluiten, 1);
+        mt.addImage(knopNorSimpel, 1);
+        mt.addImage(knopNorStandaard, 1);
+        mt.addImage(knopNorSpannend, 1);
+        mt.addImage(knopNorSuper, 1);
+        mt.addImage(knopNorSpelen, 1);
+        
+        mt.addImage(knopFocSluiten, 1);
+        mt.addImage(knopFocSimpel, 1);
+        mt.addImage(knopFocStandaard, 1);
+        mt.addImage(knopFocSpannend, 1);
+        mt.addImage(knopFocSuper, 1);
+        
+        mt.addImage(knopCliSluiten, 1);
+        mt.addImage(knopCliSimpel, 1);
+        mt.addImage(knopCliStandaard, 1);
+        mt.addImage(knopCliSpannend, 1);
+        mt.addImage(knopCliSuper, 1);
         
         try{
             mt.waitForAll();
@@ -449,7 +515,23 @@ public class MijnComponent extends HComponent implements UserEventListener {
         }
         //System.out.println(placementMap[A][drie]);
     }
-    
+    private void StartMenu(Graphics g){
+        //background
+        g.setColor(new DVBColor(191,227,87,255));
+        g.fillRect(0, 0, width, height);
+        
+        //bottom Image
+        g.drawImage(intro, 0, height - introSize, width, introSize, null);
+        
+        //name
+        g.drawImage(titel, (width - 400)/2, 20,400,135, null);
+        g.setColor(new DVBColor(194,55,0,255));
+        g.drawString("simpel", (width/2)-30,180);
+        
+        //knoppen
+        g.drawImage(knopNorSpelen, (width - knopWidth) / 2, (height - knopHeight) - 325, knopWidth, knopHeight, null); 
+        g.drawImage(knopNorSluiten, (width - knopWidth) / 2, (height - knopHeight) - 275, knopWidth, knopHeight, null); 
+    }
     public void paint(Graphics g) {
         super.paint(g);
         //g.setColor(new DVBColor(0,0,255,179));
@@ -460,8 +542,6 @@ public class MijnComponent extends HComponent implements UserEventListener {
         //g.setColor(new DVBColor(255,255,0,255));
         //g.drawString("Dit is de beste tekst ooit", 20, 40);
         //g.drawLine(0, 0, 100, 100);
-        g.setColor(new DVBColor(195,55,0,255));
-        g.fillRect(0, 0, width, height);
         
 //        HStaticText tekst = new HStaticText("Wat is 1 + 7?",0,0,750,100);
 //      tekst.setBackgroundMode(HVisible.BACKGROUND_FILL);
@@ -473,8 +553,13 @@ public class MijnComponent extends HComponent implements UserEventListener {
 //      knop.setBackground(Color.GRAY);
 //      scene.add(knop);
         
-        g.drawImage(intro, 0, height - introSize, null);
-        //BoardSetup(g,B1);
+        if(false){
+           StartMenu(g); 
+        }
+        else{
+          BoardSetup(g,B2);  
+        }
+        
 //        if(laser){
 //            g.setColor(Color.RED);
 //            g.drawLine(x + 25, 450, x + 25, 0);
