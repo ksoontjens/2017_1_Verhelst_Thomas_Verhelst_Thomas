@@ -9,19 +9,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
-import java.util.Timer;
 import org.bluray.ui.event.HRcEvent;
 import org.dvb.event.EventManager;
 import org.dvb.event.UserEvent;
 import org.dvb.event.UserEventListener;
 import org.dvb.event.UserEventRepository;
-import org.dvb.ui.DVBColor;
 import org.havi.ui.HComponent;
-import org.havi.ui.HScene;
-import org.havi.ui.HSceneFactory;
-import org.havi.ui.HStaticText;
-import org.havi.ui.HTextButton;
-import org.havi.ui.HVisible;
 
 /**
  *
@@ -29,279 +22,151 @@ import org.havi.ui.HVisible;
  */
 public class MijnComponent extends HComponent implements UserEventListener {
     
-    String[] B1 = {"B","A1H2","F1V3","A2V3","D2V3","A5V2","E5H2","C6H3"};
-    String[] B2 = {"A","A1V2","D1H3","D2V2","F2V3","E3V2","A4H3","E5H2","C5V2","A6H2","D6H2"};
-    String[] B3 = {"B","D3V3","B4H2","B5V2","C6H2","F4V3"};
-    String[] B4 = {"B","A1V3","D1V3","C4V2","D4H3","C6H3","F5V2"};
-    String[] B5 = {"B","A1H2","D1V3","F1V2","A2V3","E2V3","B4H3","F3V2","A5V2","E5H2","E6H2"};
-    String[] B6 = {"B","A1H2","A2H2","D1V2","E2V3","F2V3","D3V3","A4H2","C4V2","A5V2","D6H3"};
-    String[] B7 = {"B","B1V2","C1H2","E1V2","F1V2","D2V2","C4H2","F3V2","D6V2"};
-    String[] B8 = {"A","D1H2","F1V3","C2H2","E2V2","C3V2","D3V2","E4H2","A4H2","A5H2","A6H2","C5V2","D5H3","D6H3"};
-    String[] B9 = {"A","B1V2","C1H2","E1H2","E2H2","D2V2","E3V3","F3V2","A4V3","B4H3","C5V2","F5V2"};
-    String[] B10 = {"B","A1H2","A2H2","C1V2","E1H2","F2V3","A3V3","B4H3","A6H2","D5V2","E5H2","E6H2"};
-
+    String[][] Begin = {
+        {"B","A1H2","F1V3","A2V3","D2V3","A5V2","E5H2","C6H3"},
+        {"A","A1V2","D1H3","D2V2","F2V3","E3V2","A4H3","E5H2","C5V2","A6H2","D6H2"},
+        {"B","D3V3","B4H2","B5V2","C6H2","F4V3"},
+        {"B","A1V3","D1V3","C4V2","D4H3","C6H3","F5V2"},
+        {"B","A1H2","D1V3","F1V2","A2V3","E2V3","B4H3","F3V2","A5V2","E5H2","E6H2"},
+        {"B","A1H2","A2H2","D1V2","E2V3","F2V3","D3V3","A4H2","C4V2","A5V2","D6H3"},
+        {"B","B1V2","C1H2","E1V2","F1V2","D2V2","C4H2","F3V2","D6V2"},
+        {"A","D1H2","F1V3","C2H2","E2V2","C3V2","D3V2","E4H2","A4H2","A5H2","A6H2","C5V2","D5H3","D6H3"},
+        {"A","B1V2","C1H2","E1H2","E2H2","D2V2","E3V3","F3V2","A4V3","B4H3","C5V2","F5V2"},
+        {"B","A1H2","A2H2","C1V2","E1H2","F2V3","A3V3","B4H3","A6H2","D5V2","E5H2","E6H2"}
+    };
     
-    Image kaart;
-    Image rood;
+    String[][] Inter = {
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+    };
     
-    Image top;
-    Image bottom;
-    Image left;
-    Image right;
+    String[][] Adv = {
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+    };
     
-    Image cH1;
-    Image cH2;
-    Image cH3;
-    Image cH4;
-    Image cH5;
-    Image cH6;
-    Image cH7;
-    Image cH8;
-    Image cH9;
-    Image cH10;
-    Image cH11;
+    String[][] Expert = {
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+    };
     
-    Image cV1;
-    Image cV2;
-    Image cV3;
-    Image cV4;
-    Image cV5;
-    Image cV6;
-    Image cV7;
-    Image cV8;
-    Image cV9;
-    Image cV10;
-    Image cV11;
+    String[] selectdLevel = Begin[2];
     
-    Image vH1;
-    Image vH2;
-    Image vH3;
-    Image vH4;
+    Image kaart,rood;
     
-    Image vV1;
-    Image vV2;
-    Image vV3;
-    Image vV4;
+    Image top,bottom,left,right;
     
-    Image intro;
-    Image titel;
+    Image cH1,cH2,cH3,cH4,cH5,cH6,cH7,cH8,cH9,cH10,cH11;
     
-    //knoppen
-    Image knopNorSluiten;
-    Image knopNorSimpel;
-    Image knopNorStandaard;
-    Image knopNorSpannend;
-    Image knopNorSuper;
-    Image knopNorSpelen;
-
-    Image knopFocSluiten;
-    Image knopFocSimpel;
-    Image knopFocStandaard;
-    Image knopFocSpannend;
-    Image knopFocSuper;
-    Image knopFocSpelen;
-
-    Image knopCliSluiten;
-    Image knopCliSimpel;
-    Image knopCliStandaard;
-    Image knopCliSpannend;
-    Image knopCliSuper;
-    Image knopCliSpelen;
+    Image cV1,cV2,cV3,cV4,cV5,cV6,cV7,cV8,cV9,cV10,cV11;
+    
+    Image vH1,vH2,vH3,vH4;
+    
+    Image vV1,vV2,vV3,vV4;
+    
+    Image focus;
     
     int knopWidth = 130;
     int knopHeight = 40;
     
-    int width = 720;
-    int height = 576;
+    int width,height;
     int krtWidth = 527;
     int krtHeight = 559;
-    int introSize = 335;
-    int randL = ((width - krtWidth) / 2) + 45;
-    int randT = ((height - krtHeight) / 2) +66;
+    int randL,randT;
     int rasterSize = 72;
-    int A = randL;
-    int B = randL + rasterSize;
-    int C = randL + (rasterSize * 2);
-    int D = randL + (rasterSize * 3);
-    int E = randL + (rasterSize * 4);
-    int F = randL + (rasterSize * 5);
-    int een = randT;
-    int twee = randT + rasterSize;
-    int drie = randT + (rasterSize * 2);
-    int vier = randT + (rasterSize * 3);
-    int vijf = randT + (rasterSize * 4);
-    int zes = randT + (rasterSize * 5);
+    int A,B,C,D,E,F;
+    int een,twee,drie,vier,vijf,zes;
     int maxCar = 11;
     int maxVracht = 4;
-    int placementMap[][] = {{0,0,0,0,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0}};
+    int boardSize = 6;
+    int[][] placementMap;
+    String[] carList;
     
-    public MijnComponent(){
+    public MijnComponent(int width, int height, String level){
         this.setBounds(0, 0, width, height);
+        
+        this.width = width;
+        this.height = height;
+        
+        randL = ((width - krtWidth) / 2) + 45;
+        randT = ((height - krtHeight) / 2) +66;
+        A = randL;
+        B = randL + rasterSize;
+        C = randL + (rasterSize * 2);
+        D = randL + (rasterSize * 3);
+        E = randL + (rasterSize * 4);
+        F = randL + (rasterSize * 5);
+        een = randT;
+        twee = randT + rasterSize;
+        drie = randT + (rasterSize * 2);
+        vier = randT + (rasterSize * 3);
+        vijf = randT + (rasterSize * 4);
+        zes = randT + (rasterSize * 5);
+        
         // IMG zetten in C:\Program Files\TechnoTrend\TT-MHP-Browser\fileio\DSMCC\0.0.3
+        kaart = this.getToolkit().getImage("kaart.gif");rood = this.getToolkit().getImage("redcar.gif");
         
-        kaart = this.getToolkit().getImage("kaart.gif");
-        rood = this.getToolkit().getImage("redcar.gif");
-        
-        top = this.getToolkit().getImage("top.gif");
-        bottom = this.getToolkit().getImage("bottom.gif");
-        left = this.getToolkit().getImage("left.gif");
-        right = this.getToolkit().getImage("right.gif");
+        top = this.getToolkit().getImage("top.gif");bottom = this.getToolkit().getImage("bottom.gif");left = this.getToolkit().getImage("left.gif");right = this.getToolkit().getImage("right.gif");
         
         // cars
-        cH1 = this.getToolkit().getImage("car/H/1.gif");
-        cH2 = this.getToolkit().getImage("car/H/2.gif");
-        cH3 = this.getToolkit().getImage("car/H/3.gif");
-        cH4 = this.getToolkit().getImage("car/H/4.gif");
-        cH5 = this.getToolkit().getImage("car/H/5.gif");
-        cH6 = this.getToolkit().getImage("car/H/6.gif");
-        cH7 = this.getToolkit().getImage("car/H/7.gif");
-        cH8 = this.getToolkit().getImage("car/H/8.gif");
-        cH9 = this.getToolkit().getImage("car/H/9.gif");
-        cH10 = this.getToolkit().getImage("car/H/10.gif");
-        cH11 = this.getToolkit().getImage("car/H/11.gif");
+        cH1 = this.getToolkit().getImage("car/H/1.gif");cH2 = this.getToolkit().getImage("car/H/2.gif");cH3 = this.getToolkit().getImage("car/H/3.gif");cH4 = this.getToolkit().getImage("car/H/4.gif");cH5 = this.getToolkit().getImage("car/H/5.gif");cH6 = this.getToolkit().getImage("car/H/6.gif");cH7 = this.getToolkit().getImage("car/H/7.gif");cH8 = this.getToolkit().getImage("car/H/8.gif");cH9 = this.getToolkit().getImage("car/H/9.gif");cH10 = this.getToolkit().getImage("car/H/10.gif");cH11 = this.getToolkit().getImage("car/H/11.gif");
 
-        cV1 = this.getToolkit().getImage("car/V/1.gif");
-        cV2 = this.getToolkit().getImage("car/V/2.gif");
-        cV3 = this.getToolkit().getImage("car/V/3.gif");
-        cV4 = this.getToolkit().getImage("car/V/4.gif");
-        cV5 = this.getToolkit().getImage("car/V/5.gif");
-        cV6 = this.getToolkit().getImage("car/V/6.gif");
-        cV7 = this.getToolkit().getImage("car/V/7.gif");
-        cV8 = this.getToolkit().getImage("car/V/8.gif");
-        cV9 = this.getToolkit().getImage("car/V/9.gif");
-        cV10 = this.getToolkit().getImage("car/V/10.gif");
-        cV11 = this.getToolkit().getImage("car/V/11.gif");
+        cV1 = this.getToolkit().getImage("car/V/1.gif");cV2 = this.getToolkit().getImage("car/V/2.gif");cV3 = this.getToolkit().getImage("car/V/3.gif");cV4 = this.getToolkit().getImage("car/V/4.gif");cV5 = this.getToolkit().getImage("car/V/5.gif");cV6 = this.getToolkit().getImage("car/V/6.gif");cV7 = this.getToolkit().getImage("car/V/7.gif");cV8 = this.getToolkit().getImage("car/V/8.gif");cV9 = this.getToolkit().getImage("car/V/9.gif");cV10 = this.getToolkit().getImage("car/V/10.gif");cV11 = this.getToolkit().getImage("car/V/11.gif");
         
         // vracht
-        vH1 = this.getToolkit().getImage("vracht/H/1.gif");
-        vH2 = this.getToolkit().getImage("vracht/H/2.gif");
-        vH3 = this.getToolkit().getImage("vracht/H/3.gif");
-        vH4 = this.getToolkit().getImage("vracht/H/4.gif");
+        vH1 = this.getToolkit().getImage("vracht/H/1.gif");vH2 = this.getToolkit().getImage("vracht/H/2.gif");vH3 = this.getToolkit().getImage("vracht/H/3.gif");vH4 = this.getToolkit().getImage("vracht/H/4.gif");
     
-        vV1 = this.getToolkit().getImage("vracht/V/1.gif");
-        vV2 = this.getToolkit().getImage("vracht/V/2.gif");
-        vV3 = this.getToolkit().getImage("vracht/V/3.gif");
-        vV4 = this.getToolkit().getImage("vracht/V/4.gif");
+        vV1 = this.getToolkit().getImage("vracht/V/1.gif");vV2 = this.getToolkit().getImage("vracht/V/2.gif");vV3 = this.getToolkit().getImage("vracht/V/3.gif");vV4 = this.getToolkit().getImage("vracht/V/4.gif");
         
-        intro = this.getToolkit().getImage("intro.png");
-        titel = this.getToolkit().getImage("title.png");
-        
-        //knoppen
-        knopNorSluiten = this.getToolkit().getImage("knoppen/normaal/sluiten.png");
-        knopNorSimpel = this.getToolkit().getImage("knoppen/normaal/simpel.png");
-        knopNorStandaard = this.getToolkit().getImage("knoppen/normaal/standaard.png");
-        knopNorSpannend = this.getToolkit().getImage("knoppen/normaal/spannend.png");
-        knopNorSuper = this.getToolkit().getImage("knoppen/normaal/super.png");
-        knopNorSpelen = this.getToolkit().getImage("knoppen/normaal/spelen.png");
-        
-        knopFocSluiten = this.getToolkit().getImage("knoppen/focus/sluiten.png");
-        knopFocSimpel = this.getToolkit().getImage("knoppen/focus/simpel.png");
-        knopFocStandaard = this.getToolkit().getImage("knoppen/focus/standaard.png");
-        knopFocSpannend = this.getToolkit().getImage("knoppen/focus/spannend.png");
-        knopFocSuper = this.getToolkit().getImage("knoppen/focus/super.png");
-        knopFocSpelen = this.getToolkit().getImage("knoppen/focus/spelen.png");
-        
-        knopCliSluiten = this.getToolkit().getImage("knoppen/click/sluiten.png");
-        knopCliSimpel = this.getToolkit().getImage("knoppen/click/simpel.png");
-        knopCliStandaard = this.getToolkit().getImage("knoppen/click/standaard.png");
-        knopCliSpannend = this.getToolkit().getImage("knoppen/click/spannend.png");
-        knopCliSuper = this.getToolkit().getImage("knoppen/click/super.png");
-        knopCliSpelen = this.getToolkit().getImage("knoppen/click/spelen.png");
+        focus = this.getToolkit().getImage("focus.png");
         
         MediaTracker mt = new MediaTracker(this);
-        mt.addImage(kaart, 1);
-        mt.addImage(rood, 1);
+        mt.addImage(kaart, 1);mt.addImage(rood, 1);
         
-        mt.addImage(top, 1);
-        mt.addImage(bottom, 1);
-        mt.addImage(left, 1);
-        mt.addImage(right, 1);
+        mt.addImage(top, 1);mt.addImage(bottom, 1);mt.addImage(left, 1);mt.addImage(right, 1);
         
         //cars
-        mt.addImage(cH1, 1);
-        mt.addImage(cH2, 1);
-        mt.addImage(cH3, 1);
-        mt.addImage(cH4, 1);
-        mt.addImage(cH5, 1);
-        mt.addImage(cH6, 1);
-        mt.addImage(cH7, 1);
-        mt.addImage(cH8, 1);
-        mt.addImage(cH9, 1);
-        mt.addImage(cH10, 1);
-        mt.addImage(cH11, 1);
+        mt.addImage(cH1, 1);mt.addImage(cH2, 1);mt.addImage(cH3, 1);mt.addImage(cH4, 1);mt.addImage(cH5, 1);mt.addImage(cH6, 1);mt.addImage(cH7, 1);mt.addImage(cH8, 1);mt.addImage(cH9, 1);mt.addImage(cH10, 1);mt.addImage(cH11, 1);
         
-        mt.addImage(cV1, 1);
-        mt.addImage(cV2, 1);
-        mt.addImage(cV3, 1);
-        mt.addImage(cV4, 1);
-        mt.addImage(cV5, 1);
-        mt.addImage(cV6, 1);
-        mt.addImage(cV7, 1);
-        mt.addImage(cV8, 1);
-        mt.addImage(cV9, 1);
-        mt.addImage(cV10, 1);
-        mt.addImage(cV11, 1);
+        mt.addImage(cV1, 1);mt.addImage(cV2, 1);mt.addImage(cV3, 1);mt.addImage(cV4, 1);mt.addImage(cV5, 1);mt.addImage(cV6, 1);mt.addImage(cV7, 1);mt.addImage(cV8, 1);mt.addImage(cV9, 1);mt.addImage(cV10, 1);mt.addImage(cV11, 1);
         
         //vrachtwagens
-        mt.addImage(vH1, 1);
-        mt.addImage(vH2, 1);
-        mt.addImage(vH3, 1);
-        mt.addImage(vH4, 1);
+        mt.addImage(vH1, 1);mt.addImage(vH2, 1);mt.addImage(vH3, 1);mt.addImage(vH4, 1);
         
-        mt.addImage(vV1, 1);
-        mt.addImage(vV2, 1);
-        mt.addImage(vV3, 1);
-        mt.addImage(vV4, 1);
+        mt.addImage(vV1, 1);mt.addImage(vV2, 1);mt.addImage(vV3, 1);mt.addImage(vV4, 1);
         
-        mt.addImage(intro, 1);
-        mt.addImage(titel, 1);
+        mt.addImage(focus, 1);
         
-        // knoppen
-        mt.addImage(knopNorSluiten, 1);
-        mt.addImage(knopNorSimpel, 1);
-        mt.addImage(knopNorStandaard, 1);
-        mt.addImage(knopNorSpannend, 1);
-        mt.addImage(knopNorSuper, 1);
-        mt.addImage(knopNorSpelen, 1);
+        try{mt.waitForAll();}catch(InterruptedException ex){ex.printStackTrace();}
         
-        mt.addImage(knopFocSluiten, 1);
-        mt.addImage(knopFocSimpel, 1);
-        mt.addImage(knopFocStandaard, 1);
-        mt.addImage(knopFocSpannend, 1);
-        mt.addImage(knopFocSuper, 1);
-        
-        mt.addImage(knopCliSluiten, 1);
-        mt.addImage(knopCliSimpel, 1);
-        mt.addImage(knopCliStandaard, 1);
-        mt.addImage(knopCliSpannend, 1);
-        mt.addImage(knopCliSuper, 1);
-        
-        try{
-            mt.waitForAll();
-        }catch(InterruptedException ex){
-            ex.printStackTrace();
-        }
-        
-        UserEventRepository repo = new UserEventRepository("repo");
-        repo.addAllArrowKeys();
-        
-        EventManager manager = EventManager.getInstance();
-        manager.addUserEventListener(this, repo);
-        
-//        Timer t = new Timer();
-//        MijnTimerTask mtt = new MijnTimerTask();
-//        mtt.setCallback(this);
-//        t.scheduleAtFixedRate(mtt,0,100);
+        UserEventRepository repo = new UserEventRepository("repo");repo.addAllArrowKeys();
+        EventManager manager = EventManager.getInstance();manager.addUserEventListener(this, repo);
     }
     
-    /*void callback() {
-        xe+=re;
-        if(xe>660) re=-10;
-        if(xe<0) re=10;
-        ++ya;
-        if(ya>570) ya=0;
-        this.repaint();
-    }*/
     private int letterify(char string){
         int amount=A;
         switch(string){
@@ -326,6 +191,7 @@ public class MijnComponent extends HComponent implements UserEventListener {
         }
         return amount;
     }
+    
     private int textify(char number){
         int amount=een;
         switch(number){
@@ -350,6 +216,57 @@ public class MijnComponent extends HComponent implements UserEventListener {
         }
         return amount;
     }
+    
+    private int arrayLetterify(char string){
+        int amount=A;
+        switch(string){
+            case 'A':
+                amount =  0;
+                break;
+            case 'B':
+                amount =  1;
+                break;
+            case 'C':
+                amount =  2;
+                break;
+            case 'D':
+                amount =  3;
+                break;
+            case 'E':
+                amount =  4;
+                break;
+            case 'F':
+                amount =  5;
+                break;
+        }
+        return amount;
+    }
+    
+    private int arrayTextify(char number){
+        int amount=een;
+        switch(number){
+            case '1':
+                amount =  0;
+                break;
+            case '2':
+                amount =  1;
+                break;
+            case '3':
+                amount =  2;
+                break;
+            case '4':
+                amount =  3;
+                break;
+            case '5':
+                amount =  4;
+                break;
+            case '6':
+                amount =  5;
+                break;
+        }
+        return amount;
+    }
+    
     private Image pickCar(char direction){
         Image car;
         int randomNumber = (int)Math.floor(Math.random()* maxCar)+1;
@@ -430,6 +347,7 @@ public class MijnComponent extends HComponent implements UserEventListener {
         }
         return car;
     }
+    
     private Image pickVracht(char direction){
         Image vracht;
         int randomNumber = (int)Math.floor(Math.random()* maxVracht)+1;
@@ -468,13 +386,12 @@ public class MijnComponent extends HComponent implements UserEventListener {
         }
         return vracht;
     }
-    private void emptyArray() {
-        for(int i=0;i<6;++i){
-            for(int j=0;j<6;++j){
-                placementMap[i][j] = 0;
-            }
-        }
+    
+    private void emptyArrays(String[] level) {
+        carList = new String[level.length];
+        placementMap = new int[boardSize][boardSize];
     }
+    
     private void fillArray(int x, int y, char direction, boolean car) {
         int amount;
         if(car){
@@ -492,48 +409,42 @@ public class MijnComponent extends HComponent implements UserEventListener {
             }
         }
     }
+    
+    private void delPlace(int x, int y){
+        placementMap[x][y] = 0;
+    }
+    
+    private void addPlace(int x, int y){
+        placementMap[x][y] = 1;
+    }
+    
     private void BoardSetup(Graphics g, String[] level){
-        //emptyArray();
-        System.out.println(placementMap[0][0]);
+        emptyArrays(level);
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
         g.drawImage(kaart, (width - krtWidth) / 2, (height - krtHeight) / 2, null);
         for(int i =0,ilen=level.length;i<ilen;++i){
             if(i == 0){
                 g.drawImage(rood, letterify(level[i].charAt(0)), drie, null);
-                //fillArray(letterify(level[i].charAt(0)),drie,'H',true);
+                fillArray(arrayLetterify(level[i].charAt(0)),arrayTextify('3'),'H',true);
             }else{
-                //System.out.println();
                 Image toUse;
                 if(level[i].charAt(3) == '2'){
                     toUse = pickCar(level[i].charAt(2));
+                    fillArray(arrayLetterify(level[i].charAt(0)),arrayTextify(level[i].charAt(1)),level[i].charAt(2),true);
                 }else{
                     toUse = pickVracht(level[i].charAt(2));
+                    fillArray(arrayLetterify(level[i].charAt(0)),arrayTextify(level[i].charAt(1)),level[i].charAt(2),false);
                 }
                 g.drawImage(toUse, letterify(level[i].charAt(0)), textify(level[i].charAt(1)), null);
             }
         }
-        //System.out.println(placementMap[A][drie]);
     }
-    private void StartMenu(Graphics g){
-        //background
-        g.setColor(new DVBColor(191,227,87,255));
-        g.fillRect(0, 0, width, height);
-        
-        //bottom Image
-        g.drawImage(intro, 0, height - introSize, width, introSize, null);
-        
-        //name
-        g.drawImage(titel, (width - 400)/2, 20,400,135, null);
-        g.setColor(new DVBColor(194,55,0,255));
-        g.drawString("simpel", (width/2)-30,180);
-        
-        //knoppen
-        g.drawImage(knopNorSpelen, (width - knopWidth) / 2, (height - knopHeight) - 325, knopWidth, knopHeight, null); 
-        g.drawImage(knopNorSluiten, (width - knopWidth) / 2, (height - knopHeight) - 275, knopWidth, knopHeight, null); 
-    }
+    
     public void paint(Graphics g) {
         super.paint(g);
+        BoardSetup(g,selectdLevel);
+        
         //g.setColor(new DVBColor(0,0,255,179));
         //g.fillRoundRect(0, 0, 305, 205, 15, 15);
         //g.setColor(new DVBColor(0,0,255,179));
@@ -542,23 +453,6 @@ public class MijnComponent extends HComponent implements UserEventListener {
         //g.setColor(new DVBColor(255,255,0,255));
         //g.drawString("Dit is de beste tekst ooit", 20, 40);
         //g.drawLine(0, 0, 100, 100);
-        
-//        HStaticText tekst = new HStaticText("Wat is 1 + 7?",0,0,750,100);
-//      tekst.setBackgroundMode(HVisible.BACKGROUND_FILL);
-//      tekst.setBackground(Color.GRAY);
-//      scene.add(tekst);
-//      
-//      HTextButton knop = new HTextButton("1",250,200,100,100);
-//      knop.setBackgroundMode(HVisible.BACKGROUND_FILL);
-//      knop.setBackground(Color.GRAY);
-//      scene.add(knop);
-        
-        if(false){
-           StartMenu(g); 
-        }
-        else{
-          BoardSetup(g,B2);  
-        }
         
 //        if(laser){
 //            g.setColor(Color.RED);
@@ -602,17 +496,13 @@ public class MijnComponent extends HComponent implements UserEventListener {
 //                laser=true;
                 this.repaint();
             }
-            /*if(e.getCode()==HRcEvent.VK_UP){
-                y=y-10;
+            if(e.getCode()==HRcEvent.VK_DOWN){
+//                y=y+10;
                 this.repaint();
             }
-            if(e.getCode()==HRcEvent.VK_DOWN){
-                y=y+10;
-                this.repaint();
-            }*/
         }
         if(e.getType()==HRcEvent.KEY_RELEASED){
-                if(e.getCode()==HRcEvent.VK_UP){
+                if(e.getCode()==HRcEvent.VK_ENTER){
 //                laser=false;
 //                this.repaint();
             }
