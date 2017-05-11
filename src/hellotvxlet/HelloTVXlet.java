@@ -9,19 +9,19 @@ import org.havi.ui.event.HActionListener;
 
 public class HelloTVXlet implements Xlet, HActionListener {
     //720 x 576 standard definition
-    int width = 720;
-    int height = 576;
+    int width = 720; // 1280
+    int height = 576; // 720
     String niveau;
     public HelloTVXlet() {
         
     }
     public HScene scene;
-    MijnComponent mc;
+    SpelBord sb;
     public void initXlet(XletContext context) {
       scene = HSceneFactory.getInstance().getDefaultHScene();
-      //showMenu();
-      mc = new MijnComponent(width,height,"B 2");
-      scene.add(mc);
+//      showMenu();
+      sb = new SpelBord(width,height,"B 2");
+      scene.add(sb);
       scene.validate();scene.setVisible(true);
       
 //      Button Images:
@@ -209,9 +209,9 @@ public class HelloTVXlet implements Xlet, HActionListener {
        }
        else{
            if(!arg0.getActionCommand().equals("back")){
-               mc = new MijnComponent(width,height,arg0.getActionCommand());
-               scene.add(mc);
-               scene.popToFront(mc);
+               sb = new SpelBord(width,height,arg0.getActionCommand());
+               scene.add(sb);
+               scene.popToFront(sb);
                scene.repaint();
            }else{
                niveau = null;

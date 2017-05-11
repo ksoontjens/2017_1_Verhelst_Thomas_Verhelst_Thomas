@@ -14,13 +14,14 @@ import org.dvb.event.EventManager;
 import org.dvb.event.UserEvent;
 import org.dvb.event.UserEventListener;
 import org.dvb.event.UserEventRepository;
+import org.dvb.ui.DVBColor;
 import org.havi.ui.HComponent;
 
 /**
  *
  * @author Thomas Verhelst
  */
-public class MijnComponent extends HComponent implements UserEventListener {
+public class SpelBord extends HComponent implements UserEventListener {
     
     String[][] Begin = {
         {"B","A1H2","F1V3","A2V3","D2V3","A5V2","E5H2","C6H3"},
@@ -74,7 +75,7 @@ public class MijnComponent extends HComponent implements UserEventListener {
         {}
     };
     
-    String[] selectdLevel = Begin[2];
+    String[] selectedLevel = Begin[1];
     
     Image kaart,rood;
     
@@ -87,8 +88,6 @@ public class MijnComponent extends HComponent implements UserEventListener {
     Image vH1,vH2,vH3,vH4;
     
     Image vV1,vV2,vV3,vV4;
-    
-    Image focus;
     
     int knopWidth = 130;
     int knopHeight = 40;
@@ -104,9 +103,19 @@ public class MijnComponent extends HComponent implements UserEventListener {
     int maxVracht = 4;
     int boardSize = 6;
     int[][] placementMap;
+    int[][] colorMap;
     String[] carList;
+    int carInFocus = 0;
     
-    public MijnComponent(int width, int height, String level){
+    // paint calls
+    boolean MoveButtons = false;
+    boolean allowMoveUp = false;
+    boolean allowMoveDown = false;
+    boolean allowMoveRight = false;
+    boolean allowMoveLeft = false;
+    boolean won = false;
+    
+    public SpelBord(int width, int height, String level){
         this.setBounds(0, 0, width, height);
         
         this.width = width;
@@ -130,7 +139,7 @@ public class MijnComponent extends HComponent implements UserEventListener {
         // IMG zetten in C:\Program Files\TechnoTrend\TT-MHP-Browser\fileio\DSMCC\0.0.3
         kaart = this.getToolkit().getImage("kaart.gif");rood = this.getToolkit().getImage("redcar.gif");
         
-        top = this.getToolkit().getImage("top.gif");bottom = this.getToolkit().getImage("bottom.gif");left = this.getToolkit().getImage("left.gif");right = this.getToolkit().getImage("right.gif");
+        top = this.getToolkit().getImage("top.png");bottom = this.getToolkit().getImage("bottom.png");left = this.getToolkit().getImage("left.png");right = this.getToolkit().getImage("right.png");
         
         // cars
         cH1 = this.getToolkit().getImage("car/H/1.gif");cH2 = this.getToolkit().getImage("car/H/2.gif");cH3 = this.getToolkit().getImage("car/H/3.gif");cH4 = this.getToolkit().getImage("car/H/4.gif");cH5 = this.getToolkit().getImage("car/H/5.gif");cH6 = this.getToolkit().getImage("car/H/6.gif");cH7 = this.getToolkit().getImage("car/H/7.gif");cH8 = this.getToolkit().getImage("car/H/8.gif");cH9 = this.getToolkit().getImage("car/H/9.gif");cH10 = this.getToolkit().getImage("car/H/10.gif");cH11 = this.getToolkit().getImage("car/H/11.gif");
@@ -141,8 +150,6 @@ public class MijnComponent extends HComponent implements UserEventListener {
         vH1 = this.getToolkit().getImage("vracht/H/1.gif");vH2 = this.getToolkit().getImage("vracht/H/2.gif");vH3 = this.getToolkit().getImage("vracht/H/3.gif");vH4 = this.getToolkit().getImage("vracht/H/4.gif");
     
         vV1 = this.getToolkit().getImage("vracht/V/1.gif");vV2 = this.getToolkit().getImage("vracht/V/2.gif");vV3 = this.getToolkit().getImage("vracht/V/3.gif");vV4 = this.getToolkit().getImage("vracht/V/4.gif");
-        
-        focus = this.getToolkit().getImage("focus.png");
         
         MediaTracker mt = new MediaTracker(this);
         mt.addImage(kaart, 1);mt.addImage(rood, 1);
@@ -159,12 +166,88 @@ public class MijnComponent extends HComponent implements UserEventListener {
         
         mt.addImage(vV1, 1);mt.addImage(vV2, 1);mt.addImage(vV3, 1);mt.addImage(vV4, 1);
         
-        mt.addImage(focus, 1);
-        
         try{mt.waitForAll();}catch(InterruptedException ex){ex.printStackTrace();}
         
-        UserEventRepository repo = new UserEventRepository("repo");repo.addAllArrowKeys();
+        UserEventRepository repo = new UserEventRepository("repo");repo.addAllArrowKeys();repo.addKey(HRcEvent.VK_ENTER);
+        
         EventManager manager = EventManager.getInstance();manager.addUserEventListener(this, repo);
+        
+        ArraySetup();
+    }
+    
+    private String arrayToString(int place){
+        String amount="A";
+        switch(place){
+            case 0:
+                amount =  "A";
+                break;
+            case 1:
+                amount =  "B";
+                break;
+            case 2:
+                amount =  "C";
+                break;
+            case 3:
+                amount =  "D";
+                break;
+            case 4:
+                amount =  "E";
+                break;
+            case 5:
+                amount =  "F";
+                break;
+        }
+        return amount;
+    }
+    
+    private int arrayToLetterify(int string){
+        int amount=A;
+        switch(string){
+            case 0:
+                amount =  A;
+                break;
+            case 1:
+                amount =  B;
+                break;
+            case 2:
+                amount =  C;
+                break;
+            case 3:
+                amount =  D;
+                break;
+            case 4:
+                amount =  E;
+                break;
+            case 5:
+                amount =  F;
+                break;
+        }
+        return amount;
+    }
+    
+    private int arrayToTextify(int number){
+        int amount=een;
+        switch(number){
+            case 0:
+                amount =  een;
+                break;
+            case 1:
+                amount =  twee;
+                break;
+            case 2:
+                amount =  drie;
+                break;
+            case 3:
+                amount =  vier;
+                break;
+            case 4:
+                amount =  vijf;
+                break;
+            case 5:
+                amount =  zes;
+                break;
+        }
+        return amount;
     }
     
     private int letterify(char string){
@@ -267,12 +350,15 @@ public class MijnComponent extends HComponent implements UserEventListener {
         return amount;
     }
     
-    private Image pickCar(char direction){
+    private int pickColor(int maxColorNumber){
+        return (int)Math.floor(Math.random()* maxColorNumber)+1;
+    }
+    
+    private Image pickCar(char direction,int color){
         Image car;
-        int randomNumber = (int)Math.floor(Math.random()* maxCar)+1;
         if(direction == 'V'){
             car = cV1;
-            switch(randomNumber){
+            switch(color){
                 case 1:
                     car = cV1;
                     break;
@@ -309,7 +395,7 @@ public class MijnComponent extends HComponent implements UserEventListener {
             }
         }else{
             car = cH1;
-            switch(randomNumber){
+            switch(color){
                 case 1:
                     car = cH1;
                     break;
@@ -348,12 +434,11 @@ public class MijnComponent extends HComponent implements UserEventListener {
         return car;
     }
     
-    private Image pickVracht(char direction){
+    private Image pickVracht(char direction,int color){
         Image vracht;
-        int randomNumber = (int)Math.floor(Math.random()* maxVracht)+1;
         if(direction == 'V'){
             vracht = cV1;
-            switch(randomNumber){
+            switch(color){
                 case 1:
                     vracht = vV1;
                     break;
@@ -369,7 +454,7 @@ public class MijnComponent extends HComponent implements UserEventListener {
             }
         }else{
             vracht = vH1;
-            switch(randomNumber){
+            switch(color){
                 case 1:
                     vracht = vH1;
                     break;
@@ -387,12 +472,17 @@ public class MijnComponent extends HComponent implements UserEventListener {
         return vracht;
     }
     
-    private void emptyArrays(String[] level) {
-        carList = new String[level.length];
+    private void emptyArrays() {
+        carList = new String[selectedLevel.length];
         placementMap = new int[boardSize][boardSize];
+        colorMap = new int[boardSize][boardSize];
+        carList = selectedLevel;
+        if(carList[0].length() < 2){
+            carList[0] = carList[0]+"3H2";
+        }
     }
     
-    private void fillArray(int x, int y, char direction, boolean car) {
+    private void fillArray(int x, int y, char direction, boolean car, int color) {
         int amount;
         if(car){
             amount = 2;
@@ -401,49 +491,185 @@ public class MijnComponent extends HComponent implements UserEventListener {
         }
         if(direction == 'V'){
             for(int i = 0;i<amount;++i){
-                placementMap[y+i][x] = 1;
+                placementMap[x][y+i] = 1;
+                colorMap[x][y+i] = color;
             }
         }else{
             for(int i = 0;i<amount;++i){
-                placementMap[y][x+i] = 1;
+                placementMap[x+i][y] = 1;
+                colorMap[x+i][y] = color;
             }
         }
     }
     
     private void delPlace(int x, int y){
         placementMap[x][y] = 0;
+        colorMap[x][y] = 0;
     }
     
-    private void addPlace(int x, int y){
+    private void addPlace(int x, int y, int color){
         placementMap[x][y] = 1;
+        colorMap[x][y] = color;
     }
     
-    private void BoardSetup(Graphics g, String[] level){
-        emptyArrays(level);
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, width, height);
-        g.drawImage(kaart, (width - krtWidth) / 2, (height - krtHeight) / 2, null);
-        for(int i =0,ilen=level.length;i<ilen;++i){
-            if(i == 0){
-                g.drawImage(rood, letterify(level[i].charAt(0)), drie, null);
-                fillArray(arrayLetterify(level[i].charAt(0)),arrayTextify('3'),'H',true);
+    private void focusOn(Graphics g, int carNumber){
+        if(carNumber >= carList.length) carNumber = 0;
+        g.setColor(new DVBColor(255,255,255,102));
+        int x = letterify(carList[carNumber].charAt(0));
+        int y = textify(carList[carNumber].charAt(1));
+        if(carList[carNumber].charAt(2) == 'H'){
+            if(carList[carNumber].charAt(3) == '2'){
+                g.fillRect(x,y, rasterSize*2, rasterSize);
             }else{
-                Image toUse;
-                if(level[i].charAt(3) == '2'){
-                    toUse = pickCar(level[i].charAt(2));
-                    fillArray(arrayLetterify(level[i].charAt(0)),arrayTextify(level[i].charAt(1)),level[i].charAt(2),true);
-                }else{
-                    toUse = pickVracht(level[i].charAt(2));
-                    fillArray(arrayLetterify(level[i].charAt(0)),arrayTextify(level[i].charAt(1)),level[i].charAt(2),false);
+                g.fillRect(x,y, rasterSize*3, rasterSize);
+            }
+        }else{
+            if(carList[carNumber].charAt(3) == '2'){
+                g.fillRect(x,y, rasterSize, rasterSize*2);
+            }else{
+                g.fillRect(x,y, rasterSize, rasterSize*3);
+            }
+        }
+        carInFocus = carNumber;
+    }
+    
+    private void ShowMoveButtons(Graphics g){
+        boolean H = (carList[carInFocus].charAt(2)=='H')?true:false;
+        boolean car = (carList[carInFocus].charAt(3)=='2')?true:false;
+        int x = arrayLetterify(carList[carInFocus].charAt(0));
+        int y = arrayTextify(carList[carInFocus].charAt(1));
+        if(H){
+            if(freePlace(x-1,y)){
+                g.drawImage(left, arrayToLetterify(x-1),arrayToTextify(y), null);
+                allowMoveLeft = true;
+            }
+            if(car){
+                if(freePlace(x+2,y)){
+                    g.drawImage(right, arrayToLetterify(x+2),arrayToTextify(y), null);
+                    allowMoveRight = true;
                 }
-                g.drawImage(toUse, letterify(level[i].charAt(0)), textify(level[i].charAt(1)), null);
+            }else{
+                if(freePlace(x+3,y)){
+                    g.drawImage(right, arrayToLetterify(x+3),arrayToTextify(y), null);
+                    allowMoveRight = true;
+                }
+            }
+        }else{
+            if(freePlace(x,y-1)){
+                g.drawImage(top, arrayToLetterify(x),arrayToTextify(y-1), null);
+                allowMoveUp = true;
+            }
+            if(car){
+                if(freePlace(x,y+2)){
+                    g.drawImage(bottom, arrayToLetterify(x),arrayToTextify(y+2), null);
+                    allowMoveDown = true;
+                }
+            }else{
+                if(freePlace(x,y+3)){
+                    g.drawImage(bottom, arrayToLetterify(x),arrayToTextify(y+3), null);
+                    allowMoveDown = true;
+                }
             }
         }
     }
     
+    private boolean freePlace(int x, int y){
+        return (x >=0 && x< boardSize)&&(y>=0&&y<boardSize)? placementMap[x][y]==0:false;
+    }
+    
+    private void move(String direction){
+        int x = arrayLetterify(carList[carInFocus].charAt(0));
+        int y = arrayTextify(carList[carInFocus].charAt(1));
+        boolean car = carList[carInFocus].charAt(3) == '2';
+        if(allowMoveUp && direction.equals("up")){
+            carList[carInFocus] = carList[carInFocus].substring(0, 1) + y + carList[carInFocus].substring(2,4);
+            if(car){
+                delPlace(x,y+1);
+            }else{
+                delPlace(x,y+2);
+            }
+            addPlace(x,y-1,colorMap[x][y]);
+        }
+        if(allowMoveDown && direction.equals("down")){
+            carList[carInFocus] = carList[carInFocus].substring(0, 1) + (y+2) + carList[carInFocus].substring(2,4);
+            delPlace(x,y);
+            if(car){
+                addPlace(x,y+2,colorMap[x][y+1]);
+            }else{
+                addPlace(x,y+3,colorMap[x][y+1]);
+            }
+        }
+        if(allowMoveLeft && direction.equals("left")){
+            carList[carInFocus] = arrayToString(x-1) + carList[carInFocus].substring(1,4);
+            if(car){
+                delPlace(x+1,y);
+            }else{
+                delPlace(x+2,y);
+            }
+            addPlace(x-1,y,colorMap[x][y]);
+        }
+        if(allowMoveRight && direction.equals("right")){
+            carList[carInFocus] = arrayToString(x+1) + carList[carInFocus].substring(1,4);
+            delPlace(x,y);
+            if(car){
+                addPlace(x+2,y,colorMap[x+1][y]);
+            }else{
+                addPlace(x+3,y,colorMap[x+1][y]);
+            }
+        }
+        allowMoveUp = false;
+        allowMoveDown = false;
+        allowMoveLeft = false;
+        allowMoveRight = false;
+    }
+    
+    private void ArraySetup(){
+        emptyArrays();
+        for(int i =0,ilen=carList.length;i<ilen;++i){
+            int colorToUse = (i!=0)?(carList[i].charAt(3) == '2')?pickColor(maxCar):pickColor(maxVracht):maxCar+1;
+            boolean car = (carList[i].charAt(3) == '2')?true:false;
+            fillArray(arrayLetterify(carList[i].charAt(0)),arrayTextify(carList[i].charAt(1)),carList[i].charAt(2),car,colorToUse);
+        }
+    }
+    
+    private void BoardFill(Graphics g){
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+        g.drawImage(kaart, (width - krtWidth) / 2, (height - krtHeight) / 2, null);
+        for(int i = 0,ilen = carList.length;i<ilen;++i){
+            if(i == 0){
+                g.drawImage(rood, letterify(carList[i].charAt(0)), drie, null);
+            }else{
+                Image ImageToUse;
+                if(carList[i].charAt(3) == '2'){
+                    ImageToUse = pickCar(carList[i].charAt(2), colorMap[arrayLetterify(carList[i].charAt(0))][arrayTextify(carList[i].charAt(1))]);
+                }else{
+                    ImageToUse = pickVracht(carList[i].charAt(2), colorMap[arrayLetterify(carList[i].charAt(0))][arrayTextify(carList[i].charAt(1))]);
+                }
+                g.drawImage(ImageToUse, letterify(carList[i].charAt(0)), textify(carList[i].charAt(1)), null);
+            }
+        }
+    }
+    
+    private void Win(Graphics g){
+        g.setColor(Color.YELLOW);
+        g.drawString("Gewonnen :D", 300, 280);
+    }
+    
     public void paint(Graphics g) {
         super.paint(g);
-        BoardSetup(g,selectdLevel);
+        
+        BoardFill(g);
+        
+        if(MoveButtons){
+            ShowMoveButtons(g);
+        }
+        
+        focusOn(g,carInFocus);
+        
+        if(won){
+            Win(g);
+        }
         
         //g.setColor(new DVBColor(0,0,255,179));
         //g.fillRoundRect(0, 0, 305, 205, 15, 15);
@@ -484,28 +710,83 @@ public class MijnComponent extends HComponent implements UserEventListener {
 
     public void userEventReceived(UserEvent e) {
         if(e.getType()==HRcEvent.KEY_PRESSED){
-            if(e.getCode()==HRcEvent.VK_LEFT){
-//                x=x-10;
-                this.repaint();
-            }
-            if(e.getCode()==HRcEvent.VK_RIGHT){
-//                x=x+10;
-                this.repaint();
-            }
-            if(e.getCode()==HRcEvent.VK_UP){
-//                laser=true;
-                this.repaint();
-            }
-            if(e.getCode()==HRcEvent.VK_DOWN){
-//                y=y+10;
-                this.repaint();
+            if(!MoveButtons){
+                if(e.getCode()==HRcEvent.VK_LEFT){
+                    if(0 < carInFocus){
+                        --carInFocus;
+                    }else{
+                        carInFocus = 0;
+                    }
+                    this.repaint();
+                }
+                if(e.getCode()==HRcEvent.VK_RIGHT){
+                    if(carInFocus < carList.length-1){
+                        ++carInFocus;
+                    }else{
+                        carInFocus = carList.length-1;
+                    }
+                    this.repaint();
+                }
+                if(e.getCode()==HRcEvent.VK_UP){
+                    if(carInFocus < carList.length-1){
+                        ++carInFocus;
+                    }else{
+                        carInFocus = carList.length-1;
+                    }
+                    this.repaint();
+                }
+                if(e.getCode()==HRcEvent.VK_DOWN){
+                    if(0 < carInFocus){
+                        --carInFocus;
+                    }else{
+                        carInFocus = 0;
+                    }
+                    this.repaint();
+                }
+            }else{
+                if(allowMoveUp){
+                    if(e.getCode()==HRcEvent.VK_UP){
+                        move("up");
+                        this.repaint();
+                    }
+                }
+                if(allowMoveDown){
+                    if(e.getCode()==HRcEvent.VK_DOWN){
+                        move("down");
+                        this.repaint();
+                    }
+                }
+                if(allowMoveLeft){
+                    if(e.getCode()==HRcEvent.VK_LEFT){
+                        move("left");
+                        this.repaint();
+                    }
+                }
+                if(allowMoveRight){
+                    if(e.getCode()==HRcEvent.VK_RIGHT){
+                        move("right");
+                        this.repaint();
+                    }
+                }
             }
         }
         if(e.getType()==HRcEvent.KEY_RELEASED){
+            if(MoveButtons){
                 if(e.getCode()==HRcEvent.VK_ENTER){
-//                laser=false;
-//                this.repaint();
+                    MoveButtons = false;
+                    allowMoveUp = false;
+                    allowMoveDown = false;
+                    allowMoveLeft = false;
+                    allowMoveRight = false;
+                    this.repaint();
+                }
+            }else{
+                if(e.getCode()==HRcEvent.VK_ENTER){
+                    MoveButtons = true;
+                    this.repaint();
+                }
             }
+            
         }
     }
 }
