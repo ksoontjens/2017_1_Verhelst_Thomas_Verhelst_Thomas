@@ -81,7 +81,7 @@ public class SpelBord extends HComponent implements UserEventListener {
     String[][] huidigNiveau;
     
     Image kaart,rood;
-    Image nextLevel,prevLevel,nextFLevel,prevFLevel;
+    Image nextLevel,home,nextFLevel,homeF;
     
     Image top,bottom,left,right;
     
@@ -172,7 +172,7 @@ public class SpelBord extends HComponent implements UserEventListener {
         
         top = this.getToolkit().getImage("top.png");bottom = this.getToolkit().getImage("bottom.png");left = this.getToolkit().getImage("left.png");right = this.getToolkit().getImage("right.png");
         
-        nextLevel = this.getToolkit().getImage("knoppen/next.png");prevLevel = this.getToolkit().getImage("knoppen/back.png");nextFLevel = this.getToolkit().getImage("knoppen/focus/nextf.png");prevFLevel = this.getToolkit().getImage("knoppen/focus/backf.png");
+        nextLevel = this.getToolkit().getImage("knoppen/volgende.gif");home = this.getToolkit().getImage("knoppen/home.gif");nextFLevel = this.getToolkit().getImage("knoppen/focus/volgendef.gif");homeF = this.getToolkit().getImage("knoppen/focus/homef.gif");
         
         // cars
         cH1 = this.getToolkit().getImage("car/H/1.gif");cH2 = this.getToolkit().getImage("car/H/2.gif");cH3 = this.getToolkit().getImage("car/H/3.gif");cH4 = this.getToolkit().getImage("car/H/4.gif");cH5 = this.getToolkit().getImage("car/H/5.gif");cH6 = this.getToolkit().getImage("car/H/6.gif");cH7 = this.getToolkit().getImage("car/H/7.gif");cH8 = this.getToolkit().getImage("car/H/8.gif");cH9 = this.getToolkit().getImage("car/H/9.gif");cH10 = this.getToolkit().getImage("car/H/10.gif");cH11 = this.getToolkit().getImage("car/H/11.gif");
@@ -189,7 +189,7 @@ public class SpelBord extends HComponent implements UserEventListener {
         
         mt.addImage(top, 1);mt.addImage(bottom, 1);mt.addImage(left, 1);mt.addImage(right, 1);
         
-        mt.addImage(nextLevel, 1);mt.addImage(prevLevel, 1);mt.addImage(nextFLevel, 1);mt.addImage(prevFLevel, 1);
+        mt.addImage(nextLevel, 1);mt.addImage(home, 1);mt.addImage(nextFLevel, 1);mt.addImage(homeF, 1);
         
         //cars
         mt.addImage(cH1, 1);mt.addImage(cH2, 1);mt.addImage(cH3, 1);mt.addImage(cH4, 1);mt.addImage(cH5, 1);mt.addImage(cH6, 1);mt.addImage(cH7, 1);mt.addImage(cH8, 1);mt.addImage(cH9, 1);mt.addImage(cH10, 1);mt.addImage(cH11, 1);
@@ -740,7 +740,7 @@ public class SpelBord extends HComponent implements UserEventListener {
     
     private void Win(Graphics g){
         g.setColor(new DVBColor(194,55,0,255));
-        g.drawString("Gewonnen :D", ((width - krtWidth) / 2) + 200, bottomMapHeight);
+        g.drawString("Gewonnen :D", ((width - krtWidth) / 2) + 170, bottomMapHeight);
         MoveButtons = false;
         allowMoveUp = false;
         allowMoveDown = false;
@@ -750,26 +750,24 @@ public class SpelBord extends HComponent implements UserEventListener {
         this.repaint();
     }
     
+    private void showLevelSelection(Graphics g){
+        g.drawImage(home, ((width - krtWidth) / 2) + 15, bottomMapHeight - 28, this);
+        if(levelNumber < huidigNiveau.length-1){
+            g.drawImage(nextLevel, (((width - krtWidth) / 2) + krtWidth) - 150, bottomMapHeight - 28, this);
+        }
+        focusOnLevelSelection(g);
+    }
+    
     private void focusOnLevelSelection(Graphics g){
         carFocus = false;
         goToLevel = levelNumber;
         if(volgendLevel && levelNumber != 0){
             ++goToLevel;
-            g.drawImage(prevFLevel, ((width - krtWidth) / 2) + 15, bottomMapHeight - 28, this);
-        }else if(!volgendLevel && levelNumber < huidigNiveau.length-1){
-            --goToLevel;
-            g.drawImage(nextFLevel, (((width - krtWidth) / 2) + krtWidth) - 70, bottomMapHeight - 28, this);
+            g.drawImage(nextFLevel, (((width - krtWidth) / 2) + krtWidth) - 150, bottomMapHeight - 28, this);
+            
+        }else if(!volgendLevel){
+            g.drawImage(homeF, ((width - krtWidth) / 2) + 15, bottomMapHeight - 28, this);
         }
-    }
-    
-    private void showLevelSelection(Graphics g){
-        if(levelNumber != 0){
-            g.drawImage(prevLevel, ((width - krtWidth) / 2) + 15, bottomMapHeight - 28, this);
-        }
-        if(levelNumber < huidigNiveau.length-1){
-            g.drawImage(nextLevel, (((width - krtWidth) / 2) + krtWidth) - 70, bottomMapHeight - 28, this);
-        }
-        focusOnLevelSelection(g);
     }
     
     public void paint(Graphics g) {
@@ -865,15 +863,15 @@ public class SpelBord extends HComponent implements UserEventListener {
             if(won){
                 if(volgendLevel){
                     ++levelNumber;
-                    
+                    selectedLevel = huidigNiveau[levelNumber];
+                    ArraySetup();
+                    carFocus = true;
+                    won = false;
+                    this.repaint();
                 }else{
-                    --levelNumber;
+                    // terug naar menu
+                    System.out.println("terug nr menu");
                 }
-                selectedLevel = huidigNiveau[levelNumber];
-                ArraySetup();
-                carFocus = true;
-                won = false;
-                this.repaint();
             }
         }
     }
