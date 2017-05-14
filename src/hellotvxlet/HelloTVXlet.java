@@ -12,6 +12,8 @@ public class HelloTVXlet implements Xlet, HActionListener {
     int width = 720; // 1280
     int height = 576; // 720
     String niveau;
+    boolean homeButtonActive = false;
+    
     public HelloTVXlet() {
         
     }
@@ -182,6 +184,21 @@ public class HelloTVXlet implements Xlet, HActionListener {
         scene.add(menuBackground);
         scene.validate(); scene.setVisible(true);
     }
+//    private void showHome(String niveau){
+//        this.niveau = niveau;
+//        showMenu();
+//    }
+//    private void addHomeButton(){
+//        if(homeButtonActive){
+//            HTextButton homeButton = new HTextButton("home",0,0,100,50);
+//              homeButton.setBackgroundMode(HVisible.BACKGROUND_FILL);
+//              homeButton.setBackground(new DVBColor(194,55,0,255));
+//              homeButton.setActionCommand("home");
+//              homeButton.addHActionListener(this);
+//              scene.add(homeButton);
+//              homeButton.requestFocus();
+//        }
+//    }
 
     public void startXlet() {
     
@@ -204,11 +221,18 @@ public class HelloTVXlet implements Xlet, HActionListener {
        }
        else{
            if(!arg0.getActionCommand().equals("back")){
-               sb = new SpelBord(width,height,arg0.getActionCommand(),niveau);
+//              if(arg0.getActionCommand().equals("home")){
+//                  showMenu();
+//               scene.repaint();
+//              }else{
+                  sb = new SpelBord(width,height,arg0.getActionCommand(),niveau);
                scene.removeAll();
                scene.add(sb);
                scene.popToFront(sb);
+//               addHomeButton();
                scene.repaint();
+//              }
+               
            }else{
                niveau = null;
                showMenu();

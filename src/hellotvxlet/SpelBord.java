@@ -37,42 +37,40 @@ public class SpelBord extends HComponent implements UserEventListener {
     };
     
     String[][] Inter = {
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"}
+	{"B","A1V3","B1H2","D1V3","C4V2","D4H3","C6H3","F5V2"},
+	{"A","A1V2","B1H2","F1V3","C2V3","D4H3","E5V2","A6H3"},
+	{"D","A1H2","C1H2","E1V2","C2V2","F2V3","B3V2","A4V3","D4H2","D5V2","E5H2","E6H2","B6H2"},
+	{"C","A1H2","C1V2","E2H2","A3V2","B3V2","E3V2","F3V2","C4H2","C5H2","E5H2","A6H2"},
+	{"C","B1H2","D1H2","A2H2","C2H2","E2V3","F2V3","A3V3","B3V3","C4V2","D4V2","E5H2","B6H2","D6H2"},
+	{"D","A1H2","C1H2","E1V2","F1V3","A2V2","C2H2","B3V2","C3V3","D4H3","A6H2"},
+	{"A","A1H2","B1H3","C2H2","E2H2","C3V2","A4H2","A5H3","A6H3","D4V3","E5V2","F5V2"},
+	{"B","A1H2","C1V2","D1V3","A2H2","A3V3","B4H3","B5H2","A6H3"},
+	{"C","C1V2","D1H2","E2V2","B3V2","C4H2","E4V2","B5H3"},
+	{"A","A1V2","D1H3","B2H2","D2V2","C3V2","F3V3","C5V2","D5H2","D6H3"}
     };
-    
     String[][] Adv = {
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"}
+	{"B","A1H2","C1V2","D1V3","A2V3","B4H3","D6H3"},
+	{"B","C1V2","D1H3","A2V2","D2V3","E2H2","B4V2","E4H2","A5V2","C5H2","F5V2","B6H3"},
+	{"D","C1H3","F1V3","C2V2","D2H2","C4V2","D2V2","E4H2","E5H2","C6H3"},
+	{"C","C1V2","D1H2","B2V2","A3V2","E3V2","B4H2","A5H3","E5V2","A6H2"},
+	{"B","A1H2","C1V2","E1H2","A2H2","F2V3","A3V3","E3V2","B4H3","B5V2","D5V2","E5H2","E6H2"},
+	{"B","B1V2","D1H3","A2V2","D2V2","E2V3","F3V2","A4V2","B4H3","C5V2","F5V2","D6H2"},
+	{"A","A1V2","B1H2","D1V3","B2H2","C3V2","F3V3","D4H2","C5V2","D6H3"},
+	{"A","A1H3","D1V2","C2V3","E2H2","A4V2","B4V2","D4H2","F4H3","C5H3","A6H2","C6H2"},
+	{"A","A1H3","E1V3","C2V2","F3V2","A4V2","B4H2","D4H2","B5H2","D5V2","F5V2","A6H3"},
+	{"B","A1V3","C1V2","D1H3","D2V2","A4H2","C4H2","F4V3","A6H2","C6H2"}
     };
-    
     String[][] Expert = {
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"},
-        {"B"}
+	{"B","A1H2","D1H3","D2V2","E2H2","A3V2","F3V3","C4V3","D4H2","A5H2","D6H3"},
+	{"A","A1H2","C1V3","D1V2","E1H2","A4V2","B4H2","D4H2","F4V3","D5V2","A6H2"},
+	{"A","B1V2","C1V3","E1H2","A4V2","B4H2","D4H2","F4V3","B5H2","D5V2","E5V2","A6H3"},
+	{"A","A1V2","D1H3","D2V2","F2V3","E3V2","A4H3","D4V2","C5V2","E5H2","A6H2","D6H2"},
+	{"A","C1V3","D1H2","F1V3","D2V2","A4V2","B4H3","B5H2","D5V2","E5V2","A6H2"},
+	{"C","A1V3","B1H3","E1H2","B2V2","C2H2","F2V3","A4H3","D4V2","C5V2","E5H2","A6H2"},
+	{"B","A1H2","C1V2","E1H2","A2H2","E2V3","F2V3","A3V3","B4H3","D5V2","E5H2","A6V2","E6V2"},
+	{"A","A1V1","D1H3","B2H2","D2V2","C3V2","F3V3","D4H2","C5V2","D5H2","D6H3"},
+	{"A","C1V2","D1H3","D2V2","C3V2","F3V3","A4H2","D4H2","A5V2","B5V2","C5H2","C6H2"},
+	{"D","A1V3","B1H2","E1V2","B2V2","C2V2","F2V3","A4H3","D4V2","C5V2","E5H2","A6H2","D6H2"}
     };
     
     String[] selectedLevel = Begin[0];
@@ -761,7 +759,7 @@ public class SpelBord extends HComponent implements UserEventListener {
     private void focusOnLevelSelection(Graphics g){
         carFocus = false;
         goToLevel = levelNumber;
-        if(volgendLevel && levelNumber != 0){
+        if(volgendLevel && levelNumber >= 0){
             ++goToLevel;
             g.drawImage(nextFLevel, (((width - krtWidth) / 2) + krtWidth) - 150, bottomMapHeight - 28, this);
             
