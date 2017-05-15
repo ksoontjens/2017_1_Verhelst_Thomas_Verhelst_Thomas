@@ -759,11 +759,11 @@ public class SpelBord extends HComponent implements UserEventListener {
     private void focusOnLevelSelection(Graphics g){
         carFocus = false;
         goToLevel = levelNumber;
-        if(volgendLevel && levelNumber >= 0){
+        if(volgendLevel && levelNumber < huidigNiveau.length-1){
             ++goToLevel;
             g.drawImage(nextFLevel, (((width - krtWidth) / 2) + krtWidth) - 150, bottomMapHeight - 28, this);
             
-        }else if(!volgendLevel){
+        }else{
             g.drawImage(homeF, ((width - krtWidth) / 2) + 15, bottomMapHeight - 28, this);
         }
     }
