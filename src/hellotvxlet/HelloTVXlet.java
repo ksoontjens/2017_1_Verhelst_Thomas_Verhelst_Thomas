@@ -22,18 +22,11 @@ public class HelloTVXlet implements Xlet, HActionListener {
     public void initXlet(XletContext context) {
       scene = HSceneFactory.getInstance().getDefaultHScene();
       showMenu();
-      
-//      Button Images:
-//      HTextButton knop = new HTextButton("1",250,200,100,100);
-//      knop.setGraphicContent(image, HVisible.FIRST_STATE);
-//      knop.setGraphicContent(image, HVisible.FOCUSED_STATE);
-//      knop.setGraphicContent(image, HVisible.ACTIONED_FOCUSED_STATE);
-//      knop.setGraphicContent(image, HVisible.ACTIONED_STATE);
     }
     
-    private void showMenu(){
+    public void showMenu(){
         scene.removeAll();
-        int topDown = 220;
+        int topDown = 200;
         int levelButtonSize = 130;
         int smallButtonSize = 40;
         int padding = 10;
@@ -184,21 +177,6 @@ public class HelloTVXlet implements Xlet, HActionListener {
         scene.add(menuBackground);
         scene.validate(); scene.setVisible(true);
     }
-//    private void showHome(String niveau){
-//        this.niveau = niveau;
-//        showMenu();
-//    }
-//    private void addHomeButton(){
-//        if(homeButtonActive){
-//            HTextButton homeButton = new HTextButton("home",0,0,100,50);
-//              homeButton.setBackgroundMode(HVisible.BACKGROUND_FILL);
-//              homeButton.setBackground(new DVBColor(194,55,0,255));
-//              homeButton.setActionCommand("home");
-//              homeButton.addHActionListener(this);
-//              scene.add(homeButton);
-//              homeButton.requestFocus();
-//        }
-//    }
 
     public void startXlet() {
     
@@ -221,15 +199,10 @@ public class HelloTVXlet implements Xlet, HActionListener {
        }
        else{
            if(!arg0.getActionCommand().equals("back")){
-//              if(arg0.getActionCommand().equals("home")){
-//                  showMenu();
-//               scene.repaint();
-//              }else{
-                  sb = new SpelBord(width,height,arg0.getActionCommand(),niveau);
+                  sb = new SpelBord(width,height,arg0.getActionCommand(),niveau,this,scene);
                scene.removeAll();
                scene.add(sb);
                scene.popToFront(sb);
-//               addHomeButton();
                scene.repaint();
 //              }
                

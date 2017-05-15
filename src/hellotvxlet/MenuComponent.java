@@ -5,6 +5,7 @@
 
 package hellotvxlet;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;

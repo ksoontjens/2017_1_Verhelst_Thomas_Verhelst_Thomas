@@ -16,6 +16,7 @@ import org.dvb.event.UserEventListener;
 import org.dvb.event.UserEventRepository;
 import org.dvb.ui.DVBColor;
 import org.havi.ui.HComponent;
+import org.havi.ui.HScene;
 
 /**
  *
@@ -118,15 +119,36 @@ public class SpelBord extends HComponent implements UserEventListener {
     boolean won = false;
     int goToLevel;
     boolean volgendLevel = true;
+    HelloTVXlet topClass;
+    HScene scene;
     
-    public SpelBord(int width, int height, String level,String niveau){
-        this.setBounds(0, 0, width, height);
+    public SpelBord(int width, int height, String level,String niveau, HelloTVXlet topClass,HScene scene){
         
+        this.setBounds(0, 0, width, height);
+        this.scene = scene;
+        this.topClass=topClass;
         this.width = width;
         this.height = height;
         
+        rasterSetup();
+        
+        niveauTranslation(level);
+        
+        this.niveau = niveau;
+        
+        imageSetup();
+        
+        UserEventRepository repo = new UserEventRepository("repo");repo.addAllArrowKeys();repo.addKey(HRcEvent.VK_ENTER);
+        
+        EventManager manager = EventManager.getInstance();manager.addUserEventListener(this, repo);
+        
+        ArraySetup();
+    }
+    
+    private void rasterSetup(){
         randL = ((width - krtWidth) / 2) + 45;
         randT = ((height - krtHeight) / 2) +66;
+        
         A = randL;
         B = randL + rasterSize;
         C = randL + (rasterSize * 2);
@@ -142,29 +164,9 @@ public class SpelBord extends HComponent implements UserEventListener {
         
         bottomMapHeight = (((height - krtHeight) / 2) + krtHeight) - 25;
         topMapHeight = ((height - krtHeight) / 2) + 40;
-        
-        levelNumber = stringToInt(level.charAt(2));
-        switch(level.charAt(0)){
-            case 'B':
-                selectedLevel = Begin[levelNumber];
-                huidigNiveau = Begin;
-                break;
-            case 'I':
-                selectedLevel = Inter[levelNumber];
-                huidigNiveau = Inter;
-                break;
-            case 'A':
-                selectedLevel = Adv[levelNumber];
-                huidigNiveau = Adv;
-                break;
-            case 'E':
-                selectedLevel = Expert[levelNumber];
-                huidigNiveau = Expert;
-                break;
-        }
-        
-        this.niveau = niveau;
-        
+    }
+    
+    private void imageSetup(){
         // IMG zetten in C:\Program Files\TechnoTrend\TT-MHP-Browser\fileio\DSMCC\0.0.3
         kaart = this.getToolkit().getImage("kaart.gif");rood = this.getToolkit().getImage("redcar.gif");
         
@@ -200,12 +202,28 @@ public class SpelBord extends HComponent implements UserEventListener {
         mt.addImage(vV1, 1);mt.addImage(vV2, 1);mt.addImage(vV3, 1);mt.addImage(vV4, 1);
         
         try{mt.waitForAll();}catch(InterruptedException ex){ex.printStackTrace();}
-        
-        UserEventRepository repo = new UserEventRepository("repo");repo.addAllArrowKeys();repo.addKey(HRcEvent.VK_ENTER);
-        
-        EventManager manager = EventManager.getInstance();manager.addUserEventListener(this, repo);
-        
-        ArraySetup();
+    }
+    
+    private void niveauTranslation(String level){
+        levelNumber = stringToInt(level.charAt(2));
+        switch(level.charAt(0)){
+            case 'B':
+                selectedLevel = Begin[levelNumber];
+                huidigNiveau = Begin;
+                break;
+            case 'I':
+                selectedLevel = Inter[levelNumber];
+                huidigNiveau = Inter;
+                break;
+            case 'A':
+                selectedLevel = Adv[levelNumber];
+                huidigNiveau = Adv;
+                break;
+            case 'E':
+                selectedLevel = Expert[levelNumber];
+                huidigNiveau = Expert;
+                break;
+        }
     }
     
     private int stringToInt(char Nummer){
@@ -738,7 +756,7 @@ public class SpelBord extends HComponent implements UserEventListener {
     
     private void Win(Graphics g){
         g.setColor(new DVBColor(194,55,0,255));
-        g.drawString("Gewonnen :D", ((width - krtWidth) / 2) + 170, bottomMapHeight);
+        g.drawString("Gewonnen", ((width - krtWidth) / 2) + 185, bottomMapHeight);
         MoveButtons = false;
         allowMoveUp = false;
         allowMoveDown = false;
@@ -768,6 +786,25 @@ public class SpelBord extends HComponent implements UserEventListener {
         }
     }
     
+    private int focusOnNext(char direction){
+        int carToFocusOn = 0;
+        switch(direction){
+            case 'L':
+                
+                break;
+            case 'R':
+                
+                break;
+            case 'U':
+                
+                break;
+            case 'D':
+                
+                break;
+        }
+        return carToFocusOn;
+    }
+    
     public void paint(Graphics g) {
         super.paint(g);
         
@@ -790,7 +827,8 @@ public class SpelBord extends HComponent implements UserEventListener {
     public void userEventReceived(UserEvent e) {
         if(e.getType()==HRcEvent.KEY_PRESSED){
             if(!MoveButtons && !won){
-                if(e.getCode()==HRcEvent.VK_LEFT || e.getCode()==HRcEvent.VK_DOWN){
+                if(e.getCode()==HRcEvent.VK_LEFT){
+//                    carInFocus = focusOnNext('L');
                     if(carInFocus > 0){
                         --carInFocus;
                     }else{
@@ -798,7 +836,26 @@ public class SpelBord extends HComponent implements UserEventListener {
                     }
                     this.repaint();
                 }
-                if(e.getCode()==HRcEvent.VK_RIGHT || e.getCode()==HRcEvent.VK_UP){
+                if(e.getCode()==HRcEvent.VK_DOWN){
+//                    carInFocus = focusOnNext('D');
+                    if(carInFocus > 0){
+                        --carInFocus;
+                    }else{
+                        carInFocus = carList.length-1;
+                    }
+                    this.repaint();
+                }
+                if(e.getCode()==HRcEvent.VK_RIGHT){
+//                    carInFocus = focusOnNext('R');
+                    if(carInFocus < carList.length-1){
+                        ++carInFocus;
+                    }else{
+                        carInFocus = 0;
+                    }
+                    this.repaint();
+                }
+                if(e.getCode()==HRcEvent.VK_UP){
+//                    carInFocus = focusOnNext('U');
                     if(carInFocus < carList.length-1){
                         ++carInFocus;
                     }else{
@@ -867,8 +924,8 @@ public class SpelBord extends HComponent implements UserEventListener {
                     won = false;
                     this.repaint();
                 }else{
-                    // terug naar menu
-                    System.out.println("terug nr menu");
+                    topClass.showMenu();
+                    scene.repaint();
                 }
             }
         }
