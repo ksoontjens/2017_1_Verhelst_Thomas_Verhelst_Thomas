@@ -823,51 +823,210 @@ public class SpelBord extends HComponent implements UserEventListener {
     }
     
     private int focusOnNext(char direction){
-        int carToFocusOn = 0;
+        int carToFocusOn = carInFocus;
         String current = carList[carInFocus];
         int arrayX = arrayLetterify(current.charAt(0));
         int arrayY = arrayTextify(current.charAt(1));
         boolean h = (current.charAt(2)=='H')?true:false;
-        int carSize = (current.charAt(3)=='2')?2:3;
+        boolean car = (current.charAt(3)=='2')?true:false;
         int testX,testY;
         switch(direction){
-            case 'U':
-                if(h){
-                    // check 2de 
-                    testX = ++arrayX;
-                    testY = --arrayY;
-//                    do{
-//                        System.out.println("loop: testY="+testY);
-//                        --testY;
-//                        System.out.println("loop:  testY="+testY);
-//                    }
-//                    while(!freePlace(testX,testY));
-//                    System.out.println("testX="+testX+" testY="+(testY));
-//                    
-                    if(freePlace(testX,testY)){
-                        getFocusNumberOf(testX,testY);
+            case 'U': // up first check middle then left
+                testY = arrayY-1;
+                testX = arrayX;
+                while(testY>=0 || carToFocusOn!=carInFocus){
+                    if(h){
+                        if(car){
+                            if(!freePlace(testX+1,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+1,testY);
+                                break;
+                            }else if(!freePlace(testX,testY)){
+                                carToFocusOn = getFocusNumberOf(testX,testY);
+                                break;
+                            }
+                        }else{
+                            if(!freePlace(testX+1,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+1,testY);
+                                break;
+                            }else if(!freePlace(testX,testY)){
+                                carToFocusOn = getFocusNumberOf(testX,testY);
+                                break;
+                            }else if(!freePlace(testX+2,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+2,testY);
+                                break;
+                            }
+                        }
+                    }else{
+                        if(!freePlace(testX,testY)){
+                            carToFocusOn = getFocusNumberOf(testX,testY);
+                            break;
+                        }
                     }
-                }else{
-                    // check 1ste
+                    --testY;
                 }
-                
+                if(carToFocusOn==carInFocus){
+                    System.out.println("no new car implement checking 1 tile further arround");
+                }
                 break;
-            case 'D':
-                
+            case 'D': // down first check middle then right
+                testY = arrayY+1;
+                testX = arrayX;
+                while(testY<boardSize || carToFocusOn!=carInFocus){
+                    if(h){
+                        if(car){
+                            if(!freePlace(testX+1,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+1,testY);
+                                break;
+                            }else if(!freePlace(testX,testY)){
+                                carToFocusOn = getFocusNumberOf(testX,testY);
+                                break;
+                            }
+                        }else{
+                            if(!freePlace(testX+1,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+1,testY);
+                                break;
+                            }else if(!freePlace(testX+2,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+2,testY);
+                                break;
+                            }else if(!freePlace(testX,testY)){
+                                carToFocusOn = getFocusNumberOf(testX,testY);
+                                break;
+                            }
+                        }
+                    }else{
+                        if(car && (testY+1)<boardSize){
+                            if(!freePlace(testX,testY+1)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+1);
+                                break;
+                            }
+                        }else if(!car && (testY+2)<boardSize){
+                            if(!freePlace(testX,testY+2)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+2);
+                                break;
+                            }
+                        }
+                    }
+                    ++testY;
+                }
+                if(carToFocusOn==carInFocus){
+                    System.out.println("no new car implement checking 1 tile further arround");
+                }
                 break;
-            case 'L':
-                
+            case 'L': // left first check middle then up
+                testY = arrayY;
+                testX = arrayX-1;
+                while(testX>=0 || carToFocusOn!=carInFocus){
+                    if(h){
+                        if(!freePlace(testX,testY)){
+                            carToFocusOn = getFocusNumberOf(testX,testY);
+                            break;
+                        }
+                    }else{
+                        if(car){
+                            if(!freePlace(testX,testY)){
+                                carToFocusOn = getFocusNumberOf(testX,testY);
+                                break;
+                            }else if(!freePlace(testX,testY+1)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+1);
+                                break;
+                            }
+                        }else{
+                            if(!freePlace(testX,testY+1)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+1);
+                                break;
+                            }else if(!freePlace(testX,testY)){
+                                carToFocusOn = getFocusNumberOf(testX,testY);
+                                break;
+                            }else if(!freePlace(testX,testY+2)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+2);
+                                break;
+                            }
+                        }
+                    }
+                    --testX;
+                }
+                if(carToFocusOn==carInFocus){
+                    System.out.println("no new car implement checking 1 tile further arround");
+                }
                 break;
-            case 'R':
-                
+            case 'R': // right first check middle then down
+                testY = arrayY;
+                testX = arrayX+1;
+                while(testX<boardSize || carToFocusOn!=carInFocus){
+                    if(h){
+                        if(car && (testX+1)<boardSize){
+                            if(!freePlace(testX+1,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+1,testY);
+                                break;
+                            }
+                        }else if(!car && (testX+2)<boardSize){
+                            if(!freePlace(testX+2,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+2,testY);
+                                break;
+                            }
+                        }
+                    }else{
+                        if(car){
+                            if(!freePlace(testX,testY+1)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+1);
+                                break;
+                            }else if(!freePlace(testX,testY)){
+                                carToFocusOn = getFocusNumberOf(testX,testY);
+                                break;
+                            }
+                        }else{
+                            if(!freePlace(testX,testY+1)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+1);
+                                break;
+                            }else if(!freePlace(testX,testY+2)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+2);
+                                break;
+                            }else if(!freePlace(testX,testY)){
+                                carToFocusOn = getFocusNumberOf(testX,testY);
+                                break;
+                            }
+                        }
+                    }
+                    ++testX;
+                }
+                if(carToFocusOn==carInFocus){
+                    System.out.println("no new car implement checking 1 tile further arround");
+                }
                 break;
         }
         return carToFocusOn;
     }
 
-    private void getFocusNumberOf(int x, int y) {
-        int color = colorMap[x][y];
-        
+    private int getFocusNumberOf(int x, int y) {
+        int focusColor = colorMap[x][y];
+        int baseX=x,baseY=y,focusNumber=0;
+        if(x>0){
+            if(colorMap[x-1][y] == focusColor){
+                baseX = x-1;
+                if(baseX>0){
+                   if(colorMap[baseX-1][y] == focusColor){
+                        --baseX;
+                    }
+                }
+            }
+        }
+        if(y>0){
+            if(colorMap[x][y-1] == focusColor){
+                baseY = y-1;
+                if(baseY>0){
+                   if(colorMap[x][baseY-1] == focusColor){
+                        --baseY;
+                    }
+                }
+            }
+        }
+        for(int i=0,ilen=carList.length;i<ilen;++i){
+            if(carList[i].charAt(0)==arrayToString(baseX).charAt(0) && carList[i].charAt(1)==(""+(baseY+1)).charAt(0)){
+                focusNumber = i;
+                break;
+            }
+        }
+        return focusNumber;
     }
     
     public void paint(Graphics g) {
@@ -893,39 +1052,19 @@ public class SpelBord extends HComponent implements UserEventListener {
         if(e.getType()==HRcEvent.KEY_PRESSED){
             if(!MoveButtons && !won){
                 if(e.getCode()==HRcEvent.VK_UP){
-//                    carInFocus = focusOnNext('U');
-                    if(carInFocus < carList.length-1){
-                        ++carInFocus;
-                    }else{
-                        carInFocus = 0;
-                    }
+                    carInFocus = focusOnNext('U');
                     this.repaint();
                 }
                 if(e.getCode()==HRcEvent.VK_DOWN){
-//                    carInFocus = focusOnNext('D');
-                    if(carInFocus > 0){
-                        --carInFocus;
-                    }else{
-                        carInFocus = carList.length-1;
-                    }
+                    carInFocus = focusOnNext('D');
                     this.repaint();
                 }
                 if(e.getCode()==HRcEvent.VK_LEFT){
-//                    carInFocus = focusOnNext('L');
-                    if(carInFocus > 0){
-                        --carInFocus;
-                    }else{
-                        carInFocus = carList.length-1;
-                    }
+                    carInFocus = focusOnNext('L');
                     this.repaint();
                 }
                 if(e.getCode()==HRcEvent.VK_RIGHT){
-//                    carInFocus = focusOnNext('R');
-                    if(carInFocus < carList.length-1){
-                        ++carInFocus;
-                    }else{
-                        carInFocus = 0;
-                    }
+                    carInFocus = focusOnNext('R');
                     this.repaint();
                 }
             }else{
