@@ -832,102 +832,19 @@ public class SpelBord extends HComponent implements UserEventListener {
                     --testY;
                 }
                 if(carToFocusOn==carInFocus){ // if no car found check left row then right
-                    testY = arrayY-1;
-                    testX = arrayX;
-                    while(testY>=0 || carToFocusOn!=carInFocus){
-                        if(h){
-                            if(car){
-                                if(testX>0){
-                                    if(!freePlace(testX-1,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX-1,testY);
-                                        break;
-                                    }
-                                }
-                                if(testX+2<boardSize){
-                                    if(!freePlace(testX+2,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX+2,testY);
-                                        break;
-                                    }
-                                }
-                            }else{
-                                if(testX>0){
-                                    if(!freePlace(testX-1,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX-1,testY);
-                                        break;
-                                    }
-                                }
-                                if(testX+3<boardSize){
-                                    if(!freePlace(testX+3,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX+3,testY);
-                                        break;
-                                    }
-                                }
-                            }
-                        }else{
-                            if(testX>0){
-                                if(!freePlace(testX-1,testY)){
-                                    carToFocusOn = getFocusNumberOf(testX-1,testY);
-                                    break;
-                                }
-                            }
-                            if(testX+1<boardSize){
-                                if(!freePlace(testX+1,testY)){
-                                    carToFocusOn = getFocusNumberOf(testX+1,testY);
-                                    break;
-                                }
-                            }
-                        }
-                        --testY;
-                    }
+                    carToFocusOn = checkOuter('U',1,arrayX,arrayY,h,car);
                 }
                 if(carToFocusOn==carInFocus){// if no car found check 2 left row then right
-                    testY = arrayY-1;
-                    testX = arrayX;
-                    while(testY>=0 || carToFocusOn!=carInFocus){
-                        if(h){
-                            if(car){
-                                if(testX-1>0){
-                                    if(!freePlace(testX-2,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX-2,testY);
-                                        break;
-                                    }
-                                }
-                                if(testX+3<boardSize){
-                                    if(!freePlace(testX+3,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX+3,testY);
-                                        break;
-                                    }
-                                }
-                            }else{
-                                if(testX-1>0){
-                                    if(!freePlace(testX-2,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX-2,testY);
-                                        break;
-                                    }
-                                }
-                                if(testX+4<boardSize){
-                                    if(!freePlace(testX+4,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX+4,testY);
-                                        break;
-                                    }
-                                }
-                            }
-                        }else{
-                            if(testX-1>0){
-                                if(!freePlace(testX-2,testY)){
-                                    carToFocusOn = getFocusNumberOf(testX-2,testY);
-                                    break;
-                                }
-                            }
-                            if(testX+2<boardSize){
-                                if(!freePlace(testX+2,testY)){
-                                    carToFocusOn = getFocusNumberOf(testX+2,testY);
-                                    break;
-                                }
-                            }
-                        }
-                        --testY;
-                    }
+                    carToFocusOn = checkOuter('U',2,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 3 left row then right
+                    carToFocusOn = checkOuter('U',3,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 4 left row then right
+                    carToFocusOn = checkOuter('U',4,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 5 left row then right
+                    carToFocusOn = checkOuter('U',5,arrayX,arrayY,h,car);
                 }
                 if(carToFocusOn==carInFocus){
                     System.out.println("UP no car");
@@ -974,132 +891,19 @@ public class SpelBord extends HComponent implements UserEventListener {
                     ++testY;
                 }
                 if(carToFocusOn==carInFocus){ // if no car found check left row then right
-                    testY = arrayY+1;
-                    testX = arrayX;
-                    while(testY<boardSize || carToFocusOn!=carInFocus){
-                        if(h){
-                            if(car){
-                                if(testX>0){
-                                    if(!freePlace(testX-1,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX-1,testY);
-                                        break;
-                                    }
-                                }
-                                if(testX+2<boardSize){
-                                    if(!freePlace(testX+2,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX+2,testY);
-                                        break;
-                                    }
-                                }
-                            }else{
-                                if(testX>0){
-                                    if(!freePlace(testX-1,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX-1,testY);
-                                        break;
-                                    }
-                                }
-                                if(testX+3<boardSize){
-                                    if(!freePlace(testX+3,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX+3,testY);
-                                        break;
-                                    }
-                                }
-                            }
-                        }else{
-                            if(car && (testY+1)<boardSize){
-                                if(testX>0){
-                                    if(!freePlace(testX-1,testY+1)){
-                                        carToFocusOn = getFocusNumberOf(testX-1,testY+1);
-                                        break;
-                                    }
-                                }
-                                if(testX+1<boardSize){
-                                    if(!freePlace(testX+1,testY+1)){
-                                        carToFocusOn = getFocusNumberOf(testX+1,testY+1);
-                                        break;
-                                    }
-                                }
-                            }else if(!car && (testY+2)<boardSize){
-                                if(testX>0){
-                                    if(!freePlace(testX-1,testY+2)){
-                                        carToFocusOn = getFocusNumberOf(testX-1,testY+2);
-                                        break;
-                                    }
-                                }
-                                if(testX+1<boardSize){
-                                    if(!freePlace(testX+1,testY+2)){
-                                        carToFocusOn = getFocusNumberOf(testX+1,testY+2);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        ++testY;
-                    }
+                    carToFocusOn = checkOuter('D',1,arrayX,arrayY,h,car);
                 }
                 if(carToFocusOn==carInFocus){ // if no car found check 2 left row then right
-                    testY = arrayY+1;
-                    testX = arrayX;
-                    while(testY<boardSize || carToFocusOn!=carInFocus){
-                        if(h){
-                            if(car){
-                                if(testX-1>0){
-                                    if(!freePlace(testX-2,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX-2,testY);
-                                        break;
-                                    }
-                                }
-                                if(testX+3<boardSize){
-                                    if(!freePlace(testX+3,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX+3,testY);
-                                        break;
-                                    }
-                                }
-                            }else{
-                                if(testX-1>0){
-                                    if(!freePlace(testX-2,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX-2,testY);
-                                        break;
-                                    }
-                                }
-                                if(testX+3<boardSize){
-                                    if(!freePlace(testX+3,testY)){
-                                        carToFocusOn = getFocusNumberOf(testX+3,testY);
-                                        break;
-                                    }
-                                }
-                            }
-                        }else{
-                            if(car && (testY+1)<boardSize){
-                                if(testX-1>0){
-                                    if(!freePlace(testX-2,testY+1)){
-                                        carToFocusOn = getFocusNumberOf(testX-2,testY+1);
-                                        break;
-                                    }
-                                }
-                                if(testX+2<boardSize){
-                                    if(!freePlace(testX+2,testY+1)){
-                                        carToFocusOn = getFocusNumberOf(testX+2,testY+1);
-                                        break;
-                                    }
-                                }
-                            }else if(!car && (testY+2)<boardSize){
-                                if(testX-1>0){
-                                    if(!freePlace(testX-2,testY+2)){
-                                        carToFocusOn = getFocusNumberOf(testX-2,testY+2);
-                                        break;
-                                    }
-                                }
-                                if(testX+2<boardSize){
-                                    if(!freePlace(testX+2,testY+2)){
-                                        carToFocusOn = getFocusNumberOf(testX+2,testY+2);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        ++testY;
-                    }
+                    carToFocusOn = checkOuter('D',2,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){ // if no car found check 3 left row then right
+                    carToFocusOn = checkOuter('D',3,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){ // if no car found check 4 left row then right
+                    carToFocusOn = checkOuter('D',4,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){ // if no car found check 5 left row then right
+                    carToFocusOn = checkOuter('D',5,arrayX,arrayY,h,car);
                 }
                 if(carToFocusOn==carInFocus){
                     System.out.println("DOWN no car");
@@ -1139,102 +943,19 @@ public class SpelBord extends HComponent implements UserEventListener {
                     --testX;
                 }
                 if(carToFocusOn==carInFocus){// if no car found check top row then bottom
-                    testY = arrayY;
-                    testX = arrayX-1;
-                    while(testX>=0 || carToFocusOn!=carInFocus){
-                        if(h){
-                            if(testY>0){
-                                if(!freePlace(testX,testY-1)){
-                                    carToFocusOn = getFocusNumberOf(testX,testY-1);
-                                    break;
-                                }
-                            }
-                            if(testY+1<boardSize){
-                                if(!freePlace(testX,testY+1)){
-                                    carToFocusOn = getFocusNumberOf(testX,testY+1);
-                                    break;
-                                }
-                            }
-                        }else{
-                            if(car){
-                                if(testY>0){
-                                    if(!freePlace(testX,testY-1)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY-1);
-                                        break;
-                                    }
-                                }
-                                if(testY+2<boardSize){
-                                    if(!freePlace(testX,testY+2)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY+2);
-                                        break;
-                                    }
-                                }
-                            }else{
-                                if(testY>0){
-                                    if(!freePlace(testX,testY-1)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY-1);
-                                        break;
-                                    }
-                                }
-                                if(testY+3<boardSize){
-                                    if(!freePlace(testX,testY+3)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY+3);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        --testX;
-                    }
+                    carToFocusOn = checkOuter('L',1,arrayX,arrayY,h,car);
                 }
                 if(carToFocusOn==carInFocus){// if no car found check 2 top row then bottom
-                    testY = arrayY;
-                    testX = arrayX-1;
-                    while(testX>=0 || carToFocusOn!=carInFocus){
-                        if(h){
-                            if(testY-1>0){
-                                if(!freePlace(testX,testY-2)){
-                                    carToFocusOn = getFocusNumberOf(testX,testY-2);
-                                    break;
-                                }
-                            }
-                            if(testY+2<boardSize){
-                                if(!freePlace(testX,testY+2)){
-                                    carToFocusOn = getFocusNumberOf(testX,testY+2);
-                                    break;
-                                }
-                            }
-                        }else{
-                            if(car){
-                                if(testY-1>0){
-                                    if(!freePlace(testX,testY-2)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY-2);
-                                        break;
-                                    }
-                                }
-                                if(testY+3<boardSize){
-                                    if(!freePlace(testX,testY+3)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY+3);
-                                        break;
-                                    }
-                                }
-                            }else{
-                                if(testY-1>0){
-                                    if(!freePlace(testX,testY-2)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY-2);
-                                        break;
-                                    }
-                                }
-                                if(testY+4<boardSize){
-                                    if(!freePlace(testX,testY+4)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY+4);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        --testX;
-                    }
+                    carToFocusOn = checkOuter('L',2,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 3 top row then bottom
+                    carToFocusOn = checkOuter('L',3,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 4 top row then bottom
+                    carToFocusOn = checkOuter('L',4,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 5 top row then bottom
+                    carToFocusOn = checkOuter('L',5,arrayX,arrayY,h,car);
                 }
                 if(carToFocusOn==carInFocus){
                     System.out.println("LEFT no car");
@@ -1281,134 +1002,19 @@ public class SpelBord extends HComponent implements UserEventListener {
                     ++testX;
                 }
                 if(carToFocusOn==carInFocus){// if no car found check top row then bottom
-                    testY = arrayY;
-                    testX = arrayX+1;
-                    while(testX<boardSize || carToFocusOn!=carInFocus){
-                        if(h){
-                            if(car && (testX+1)<boardSize){
-                                if(testY>0){
-                                    if(!freePlace(testX+1,testY-1)){
-                                        carToFocusOn = getFocusNumberOf(testX+1,testY-1);
-                                        break;
-                                    }
-                                }
-                                if(testY+1<boardSize){
-                                    if(!freePlace(testX+1,testY+1)){
-                                        carToFocusOn = getFocusNumberOf(testX+1,testY+1);
-                                        break;
-                                    }
-                                }
-                            }else if(!car && (testX+2)<boardSize){
-                                if(testY>0){
-                                    if(!freePlace(testX+2,testY-1)){
-                                        carToFocusOn = getFocusNumberOf(testX+2,testY-1);
-                                        break;
-                                    }
-                                }
-                                if(testY+1<boardSize){
-                                    if(!freePlace(testX+2,testY+1)){
-                                        carToFocusOn = getFocusNumberOf(testX+2,testY+1);
-                                        break;
-                                    }
-                                }
-                            }
-                        }else{
-                            
-                            if(car){
-                                if(testY>0){
-                                    if(!freePlace(testX,testY-1)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY-1);
-                                        break;
-                                    }
-                                }
-                                if(testY+2<boardSize){
-                                    if(!freePlace(testX,testY+2)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY+2);
-                                        break;
-                                    }
-                                }
-                            }else{
-                                if(testY>0){
-                                    if(!freePlace(testX,testY-1)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY-1);
-                                        break;
-                                    }
-                                }
-                                if(testY+3<boardSize){
-                                    if(!freePlace(testX,testY+3)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY+3);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        ++testX;
-                    }
+                    carToFocusOn = checkOuter('R',1,arrayX,arrayY,h,car);
                 }
                 if(carToFocusOn==carInFocus){// if no car found check 2 top row then bottom
-                    testY = arrayY;
-                    testX = arrayX+1;
-                    while(testX<boardSize || carToFocusOn!=carInFocus){
-                        if(h){
-                            if(car && (testX+1)<boardSize){
-                                if(testY-1>0){
-                                    if(!freePlace(testX+1,testY-2)){
-                                        carToFocusOn = getFocusNumberOf(testX+1,testY-2);
-                                        break;
-                                    }
-                                }
-                                if(testY+2<boardSize){
-                                    if(!freePlace(testX+1,testY+2)){
-                                        carToFocusOn = getFocusNumberOf(testX+1,testY+2);
-                                        break;
-                                    }
-                                }
-                            }else if(!car && (testX+2)<boardSize){
-                                if(testY-1>0){
-                                    if(!freePlace(testX+2,testY-2)){
-                                        carToFocusOn = getFocusNumberOf(testX+2,testY-2);
-                                        break;
-                                    }
-                                }
-                                if(testY+2<boardSize){
-                                    if(!freePlace(testX+2,testY+2)){
-                                        carToFocusOn = getFocusNumberOf(testX+2,testY+2);
-                                        break;
-                                    }
-                                }
-                            }
-                        }else{
-                            
-                            if(car){
-                                if(testY-1>0){
-                                    if(!freePlace(testX,testY-2)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY-2);
-                                        break;
-                                    }
-                                }
-                                if(testY+3<boardSize){
-                                    if(!freePlace(testX,testY+3)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY+3);
-                                        break;
-                                    }
-                                }
-                            }else{
-                                if(testY-1>0){
-                                    if(!freePlace(testX,testY-2)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY-2);
-                                        break;
-                                    }
-                                }
-                                if(testY+4<boardSize){
-                                    if(!freePlace(testX,testY+4)){
-                                        carToFocusOn = getFocusNumberOf(testX,testY+4);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        ++testX;
-                    }
+                    carToFocusOn = checkOuter('R',2,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 3 top row then bottom
+                    carToFocusOn = checkOuter('R',3,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 4 top row then bottom
+                    carToFocusOn = checkOuter('R',4,arrayX,arrayY,h,car);
+                }
+                if(carToFocusOn==carInFocus){// if no car found check 5 top row then bottom
+                    carToFocusOn = checkOuter('R',5,arrayX,arrayY,h,car);
                 }
                 if(carToFocusOn==carInFocus){
                     System.out.println("RIGHT no car");
@@ -1417,76 +1023,243 @@ public class SpelBord extends HComponent implements UserEventListener {
         }
         return carToFocusOn;
     }
-    
-    private int checkOuter(char direction, int outerRow, int arrayX, int arrayY, boolean h, boolean car){
+    private int checkOuter(char direction, int distence, int arrayX, int arrayY, boolean h, boolean car){
         int carToFocusOn = carInFocus;
         
         switch(direction){
             case 'U':
-                
+                int testY = arrayY-1;
+                int testX = arrayX;
+                while(testY>=0 || carToFocusOn!=carInFocus){
+                    if(h){
+                        if(car){
+                            if(testX-distence>=0){
+                                if(!freePlace(testX-distence,testY)){
+                                    carToFocusOn = getFocusNumberOf(testX-distence,testY);
+                                    break;
+                                }
+                            }
+                            if(testX+1+distence<boardSize){
+                                if(!freePlace(testX+1+distence,testY)){
+                                    carToFocusOn = getFocusNumberOf(testX+1+distence,testY);
+                                    break;
+                                }
+                            }
+                        }else{
+                            if(testX-distence>=0){
+                                if(!freePlace(testX-distence,testY)){
+                                    carToFocusOn = getFocusNumberOf(testX-distence,testY);
+                                    break;
+                                }
+                            }
+                            if(testX+2+distence<boardSize){
+                                if(!freePlace(testX+2+distence,testY)){
+                                    carToFocusOn = getFocusNumberOf(testX+2+distence,testY);
+                                    break;
+                                }
+                            }
+                        }
+                    }else{
+                        if(testX-distence>=0){
+                            if(!freePlace(testX-distence,testY)){
+                                carToFocusOn = getFocusNumberOf(testX-distence,testY);
+                                break;
+                            }
+                        }
+                        if(testX+distence<boardSize){
+                            if(!freePlace(testX+distence,testY)){
+                                carToFocusOn = getFocusNumberOf(testX+distence,testY);
+                                break;
+                            }
+                        }
+                    }
+                    --testY;
+                }
                 break;
             case 'D':
-                
+                testY = arrayY+1;
+                testX = arrayX;
+                while(testY<boardSize || carToFocusOn!=carInFocus){
+                    if(h){
+                        if(car){
+                            if(testX-distence>=0){
+                                if(!freePlace(testX-distence,testY)){
+                                    carToFocusOn = getFocusNumberOf(testX-distence,testY);
+                                    break;
+                                }
+                            }
+                            if(testX+2<boardSize){
+                                if(!freePlace(testX+1+distence,testY)){
+                                    carToFocusOn = getFocusNumberOf(testX+1+distence,testY);
+                                    break;
+                                }
+                            }
+                        }else{
+                            if(testX-distence>=0){
+                                if(!freePlace(testX-distence,testY)){
+                                    carToFocusOn = getFocusNumberOf(testX-distence,testY);
+                                    break;
+                                }
+                            }
+                            if(testX+2+distence<boardSize){
+                                if(!freePlace(testX+2+distence,testY)){
+                                    carToFocusOn = getFocusNumberOf(testX+2+distence,testY);
+                                    break;
+                                }
+                            }
+                        }
+                    }else{
+                        if(car && (testY+1)<boardSize){
+                            if(testX-distence>=0){
+                                if(!freePlace(testX-distence,testY+1)){
+                                    carToFocusOn = getFocusNumberOf(testX-distence,testY+1);
+                                    break;
+                                }
+                            }
+                            if(testX+distence<boardSize){
+                                if(!freePlace(testX+distence,testY+1)){
+                                    carToFocusOn = getFocusNumberOf(testX+distence,testY+1);
+                                    break;
+                                }
+                            }
+                        }else if(!car && (testY+2)<boardSize){
+                            if(testX-distence>=0){
+                                if(!freePlace(testX-distence,testY+2)){
+                                    carToFocusOn = getFocusNumberOf(testX-distence,testY+2);
+                                    break;
+                                }
+                            }
+                            if(testX+distence<boardSize){
+                                if(!freePlace(testX+distence,testY+2)){
+                                    carToFocusOn = getFocusNumberOf(testX+distence,testY+2);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    ++testY;
+                }
                 break;
             case 'L':
-                
+                testY = arrayY;
+                testX = arrayX-1;
+                while(testX>=0 || carToFocusOn!=carInFocus){
+                    if(h){
+                        if(testY-distence>=0){
+                            if(!freePlace(testX,testY-distence)){
+                                carToFocusOn = getFocusNumberOf(testX,testY-distence);
+                                break;
+                            }
+                        }
+                        if(testY+distence<boardSize){
+                            if(!freePlace(testX,testY+distence)){
+                                carToFocusOn = getFocusNumberOf(testX,testY+distence);
+                                break;
+                            }
+                        }
+                    }else{
+                        if(car){
+                            if(testY-distence>=0){
+                                if(!freePlace(testX,testY-distence)){
+                                    carToFocusOn = getFocusNumberOf(testX,testY-distence);
+                                    break;
+                                }
+                            }
+                            if(testY+1+distence<boardSize){
+                                if(!freePlace(testX,testY+1+distence)){
+                                    carToFocusOn = getFocusNumberOf(testX,testY+1+distence);
+                                    break;
+                                }
+                            }
+                        }else{
+                            if(testY-distence>=0){
+                                if(!freePlace(testX,testY-distence)){
+                                    carToFocusOn = getFocusNumberOf(testX,testY-distence);
+                                    break;
+                                }
+                            }
+                            if(testY+2+distence<boardSize){
+                                if(!freePlace(testX,testY+2+distence)){
+                                    carToFocusOn = getFocusNumberOf(testX,testY+2+distence);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    --testX;
+                }
                 break;
             case 'R':
-                
+                testY = arrayY;
+                testX = arrayX+1;
+                while(testX<boardSize || carToFocusOn!=carInFocus){
+                    if(h){
+                        if(car && (testX+1)<boardSize){
+                            if(testY-distence>=0){
+                                if(!freePlace(testX+1,testY-distence)){
+                                    carToFocusOn = getFocusNumberOf(testX+1,testY-distence);
+                                    break;
+                                }
+                            }
+                            if(testY+distence<boardSize){
+                                if(!freePlace(testX+1,testY+distence)){
+                                    carToFocusOn = getFocusNumberOf(testX+1,testY+distence);
+                                    break;
+                                }
+                            }
+                        }else if(!car && (testX+2)<boardSize){
+                            if(testY-distence>=0){
+                                if(!freePlace(testX+2,testY-distence)){
+                                    carToFocusOn = getFocusNumberOf(testX+2,testY-distence);
+                                    break;
+                                }
+                            }
+                            if(testY+distence<boardSize){
+                                if(!freePlace(testX+2,testY+distence)){
+                                    carToFocusOn = getFocusNumberOf(testX+2,testY+distence);
+                                    break;
+                                }
+                            }
+                        }
+                    }else{
+
+                        if(car){
+                            if(testY-distence>=0){
+                                if(!freePlace(testX,testY-distence)){
+                                    carToFocusOn = getFocusNumberOf(testX,testY-distence);
+                                    break;
+                                }
+                            }
+                            if(testY+1+distence<boardSize){
+                                if(!freePlace(testX,testY+1+distence)){
+                                    carToFocusOn = getFocusNumberOf(testX,testY+1+distence);
+                                    break;
+                                }
+                            }
+                        }else{
+                            if(testY-distence>=0){
+                                if(!freePlace(testX,testY-distence)){
+                                    carToFocusOn = getFocusNumberOf(testX,testY-distence);
+                                    break;
+                                }
+                            }
+                            if(testY+2+distence<boardSize){
+                                if(!freePlace(testX,testY+2+distence)){
+                                    carToFocusOn = getFocusNumberOf(testX,testY+2+distence);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    ++testX;
+                }
                 break;
         }
         
-        int testY = arrayY-1;
-        int testX = arrayX;
-        while(testY>=0 || carToFocusOn!=carInFocus){
-            if(h){
-                if(car){
-                    if(testX>0){
-                        if(!freePlace(testX-1,testY)){
-                            carToFocusOn = getFocusNumberOf(testX-1,testY);
-                            break;
-                        }
-                    }
-                    if(testX+2<boardSize){
-                        if(!freePlace(testX+2,testY)){
-                            carToFocusOn = getFocusNumberOf(testX+2,testY);
-                            break;
-                        }
-                    }
-                }else{
-                    if(testX>0){
-                        if(!freePlace(testX-1,testY)){
-                            carToFocusOn = getFocusNumberOf(testX-1,testY);
-                            break;
-                        }
-                    }
-                    if(testX+3<boardSize){
-                        if(!freePlace(testX+3,testY)){
-                            carToFocusOn = getFocusNumberOf(testX+3,testY);
-                            break;
-                        }
-                    }
-                }
-            }else{
-                if(testX>0){
-                    if(!freePlace(testX-1,testY)){
-                        carToFocusOn = getFocusNumberOf(testX-1,testY);
-                        break;
-                    }
-                }
-                if(testX+1<boardSize){
-                    if(!freePlace(testX+1,testY)){
-                        carToFocusOn = getFocusNumberOf(testX+1,testY);
-                        break;
-                    }
-                }
-            }
-            --testY;
-        }
+        
         
         return carToFocusOn;
     }
-    
     private int getFocusNumberOf(int x, int y) {
         int focusColor = colorMap[x][y];
         int baseX=x,baseY=y,focusNumber=0;
