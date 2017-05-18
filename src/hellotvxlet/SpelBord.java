@@ -429,15 +429,14 @@ public class SpelBord extends HComponent implements UserEventListener {
         return amount;
     }
     private int pickColor(boolean car){
-        return (car)?generateNewColor(usedCarColors):generateNewColor(usedVrachtColors);
+        return (car)?generateNewColor(usedCarColors,1,maxCar):generateNewColor(usedVrachtColors,maxCar+1,maxCar+maxVracht);
     }
-    private int generateNewColor(int[] colorStorage){
+    private int generateNewColor(int[] colorStorage,int start,int eind){
         int theChosenOne = 0;
         do{
-            theChosenOne = (int)Math.floor(Math.random()* colorStorage.length)+1;
+            theChosenOne = (int)Math.floor(Math.random()*((eind-start)+1))+start;
         }
         while(alreadyPicked(theChosenOne,colorStorage));
-        
         addColorTo(colorStorage,theChosenOne);
         return theChosenOne;
     }
@@ -543,32 +542,32 @@ public class SpelBord extends HComponent implements UserEventListener {
         if(direction == 'V'){
             vracht = cV1;
             switch(color){
-                case 1:
+                case 12:
                     vracht = vV1;
                     break;
-                case 2:
+                case 13:
                     vracht = vV2;
                     break;
-                case 3:
+                case 14:
                     vracht = vV3;
                     break;
-                case 4:
+                case 15:
                     vracht = vV4;
                     break;
             }
         }else{
             vracht = vH1;
             switch(color){
-                case 1:
+                case 12:
                     vracht = vH1;
                     break;
-                case 2:
+                case 13:
                     vracht = vH2;
                     break;
-                case 3:
+                case 14:
                     vracht = vH3;
                     break;
-                case 4:
+                case 15:
                     vracht = vH4;
                     break;
             }
@@ -734,7 +733,7 @@ public class SpelBord extends HComponent implements UserEventListener {
     private void ArraySetup(){
         emptyArrays();
         for(int i =0,ilen=carList.length;i<ilen;++i){
-            int colorToUse = (i!=0)?(carList[i].charAt(3) == '2')?pickColor(true):pickColor(false):maxCar+1;
+            int colorToUse = (i!=0)?(carList[i].charAt(3) == '2')?pickColor(true):pickColor(false):maxVracht+maxCar+1;
             boolean car = (carList[i].charAt(3) == '2')?true:false;
             fillArray(arrayLetterify(carList[i].charAt(0)),arrayTextify(carList[i].charAt(1)),carList[i].charAt(2),car,colorToUse);
         }
@@ -770,7 +769,6 @@ public class SpelBord extends HComponent implements UserEventListener {
         allowMoveLeft = false;
         allowMoveRight = false;
         showLevelSelection(g);
-        this.repaint();
     }
     private void showLevelSelection(Graphics g){
         g.drawImage(home, ((width - krtWidth) / 2) + 15, bottomMapHeight - 28, this);
@@ -962,7 +960,6 @@ public class SpelBord extends HComponent implements UserEventListener {
                         }
                     }else{
                         if(car && (testY+1)<boardSize){
-                            System.out.println("testY+1="+testY+1);
                             if(!freePlace(testX,testY+1)){
                                 carToFocusOn = getFocusNumberOf(testX,testY+1);
                                 break;
@@ -1421,59 +1418,74 @@ public class SpelBord extends HComponent implements UserEventListener {
         return carToFocusOn;
     }
     
-//    private int checkOuter(char direction, int outerRow, int arrayX, int arrayY, boolean h, boolean car){
-//        int carToFocusOn = carInFocus;
-//        
-//        int testY = arrayY-1;
-//        int testX = arrayX;
-//        while(testY>=0 || carToFocusOn!=carInFocus){
-//            if(h){
-//                if(car){
-//                    if(testX>0){
-//                        if(!freePlace(testX-1,testY)){
-//                            carToFocusOn = getFocusNumberOf(testX-1,testY);
-//                            break;
-//                        }
-//                    }
-//                    if(testX+2<boardSize){
-//                        if(!freePlace(testX+2,testY)){
-//                            carToFocusOn = getFocusNumberOf(testX+2,testY);
-//                            break;
-//                        }
-//                    }
-//                }else{
-//                    if(testX>0){
-//                        if(!freePlace(testX-1,testY)){
-//                            carToFocusOn = getFocusNumberOf(testX-1,testY);
-//                            break;
-//                        }
-//                    }
-//                    if(testX+3<boardSize){
-//                        if(!freePlace(testX+3,testY)){
-//                            carToFocusOn = getFocusNumberOf(testX+3,testY);
-//                            break;
-//                        }
-//                    }
-//                }
-//            }else{
-//                if(testX>0){
-//                    if(!freePlace(testX-1,testY)){
-//                        carToFocusOn = getFocusNumberOf(testX-1,testY);
-//                        break;
-//                    }
-//                }
-//                if(testX+1<boardSize){
-//                    if(!freePlace(testX+1,testY)){
-//                        carToFocusOn = getFocusNumberOf(testX+1,testY);
-//                        break;
-//                    }
-//                }
-//            }
-//            --testY;
-//        }
-//        
-//        return carToFocusOn;
-//    }
+    private int checkOuter(char direction, int outerRow, int arrayX, int arrayY, boolean h, boolean car){
+        int carToFocusOn = carInFocus;
+        
+        switch(direction){
+            case 'U':
+                
+                break;
+            case 'D':
+                
+                break;
+            case 'L':
+                
+                break;
+            case 'R':
+                
+                break;
+        }
+        
+        int testY = arrayY-1;
+        int testX = arrayX;
+        while(testY>=0 || carToFocusOn!=carInFocus){
+            if(h){
+                if(car){
+                    if(testX>0){
+                        if(!freePlace(testX-1,testY)){
+                            carToFocusOn = getFocusNumberOf(testX-1,testY);
+                            break;
+                        }
+                    }
+                    if(testX+2<boardSize){
+                        if(!freePlace(testX+2,testY)){
+                            carToFocusOn = getFocusNumberOf(testX+2,testY);
+                            break;
+                        }
+                    }
+                }else{
+                    if(testX>0){
+                        if(!freePlace(testX-1,testY)){
+                            carToFocusOn = getFocusNumberOf(testX-1,testY);
+                            break;
+                        }
+                    }
+                    if(testX+3<boardSize){
+                        if(!freePlace(testX+3,testY)){
+                            carToFocusOn = getFocusNumberOf(testX+3,testY);
+                            break;
+                        }
+                    }
+                }
+            }else{
+                if(testX>0){
+                    if(!freePlace(testX-1,testY)){
+                        carToFocusOn = getFocusNumberOf(testX-1,testY);
+                        break;
+                    }
+                }
+                if(testX+1<boardSize){
+                    if(!freePlace(testX+1,testY)){
+                        carToFocusOn = getFocusNumberOf(testX+1,testY);
+                        break;
+                    }
+                }
+            }
+            --testY;
+        }
+        
+        return carToFocusOn;
+    }
     
     private int getFocusNumberOf(int x, int y) {
         int focusColor = colorMap[x][y];
@@ -1571,9 +1583,11 @@ public class SpelBord extends HComponent implements UserEventListener {
                 if(won){
                     if(e.getCode()==HRcEvent.VK_LEFT){
                         volgendLevel = false;
+                        this.repaint();
                     }
                     if(e.getCode()==HRcEvent.VK_RIGHT){
                         volgendLevel = true;
+                        this.repaint();
                     }
                 }
             }
@@ -1605,9 +1619,11 @@ public class SpelBord extends HComponent implements UserEventListener {
                     MoveButtons = false;
                     this.repaint();
                 }else{
-                    carFocus = true;
                     won = false;
-                    MoveButtons = false;
+                    MoveButtons = false;// both win and moveButtons staan af drm fout bij menu? 
+                    scene.invalidate();
+                    scene.setVisible(false);
+                    scene.removeAll();
                     topClass.showMenu();
                     scene.repaint();
                 }
