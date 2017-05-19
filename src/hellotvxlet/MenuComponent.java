@@ -5,7 +5,6 @@
 
 package hellotvxlet;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -42,7 +41,7 @@ class MenuComponent extends HComponent {
         super.paint(g);
         
         //background
-        g.setColor(new DVBColor(191,227,87,255));
+        g.setColor(new DVBColor(255,220,50,255));// 191,227,87,255 // 217,188,11
         g.fillRect(0, 0, width, height);
         
         //bottom Image

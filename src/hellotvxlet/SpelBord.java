@@ -1392,6 +1392,7 @@ public class SpelBord extends HComponent implements UserEventListener {
                     MoveButtons = false;
                     this.repaint();
                 }else{
+                    carFocus = true;
                     won = false;
                     MoveButtons = false;// both win and moveButtons staan af drm fout bij menu? 
                     scene.invalidate();
