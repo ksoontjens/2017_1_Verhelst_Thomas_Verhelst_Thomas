@@ -1398,6 +1398,8 @@ public class SpelBord extends HComponent implements UserEventListener {
                     scene.invalidate();
                     scene.setVisible(false);
                     scene.removeAll();
+                    EventManager manager = EventManager.getInstance();
+                    manager.removeUserEventListener(this);
                     topClass.showMenu();
                     scene.repaint();
                 }
